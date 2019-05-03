@@ -4,10 +4,13 @@ const app = express();
 const requestPromise = require('request-promise');
 const GoogleSpreadsheet = require('google-spreadsheet');
 const creds = require('./../client_secret.json');
+
 var age = require('./age.js');
+var err = require('./errorHandle.js')
+var rep = require('./createReplie.js')
 
 // Ouvre ou créer un document GoogleSheets selon l'url
-var doc = new GoogleSpreadsheet('1XofCw00y2i55yXFWatwI6zkRokzWqnl09oZGRKZ6by4');
+var doc = new GoogleSpreadsheet('11b-R9LT6SlAwCXYhXDyYGg-pw0p0okDnHzswG-qUfDM');
 
 let alldata = [];
 // Se connect au Google Spreadsheets API.
@@ -25,11 +28,12 @@ app.use(express.static('public'));
 // Trouve la colonne du tableau correspondant avec l'age calculé
 function fetchData(days) {
     for (let i = 0; i < alldata.length; i++) {
-        if (parseInt(alldata[i].semainescumulees, 10) === days) {
+        if (parseInt(alldata[i].semainescumulee, 10) === days) {
             return (alldata[i])
         }
     }
 }
+
 
 app.get('/api', (request, response) => {
     const requestOptions = {
@@ -39,22 +43,35 @@ app.get('/api', (request, response) => {
         },
         json: true
     };
-    let pertinentData = fetchData(age.findAge(request.query.birth), alldata);
-    console.log(pertinentData.push, pertinentData.catégorie)
-    requestPromise(requestOptions)
-        .then(function(data) {
-            response.json({
-                set_attributes: {
-                    titre: pertinentData.catégorie,
-                    notification: pertinentData.push
-                }
 
+    var ageDay = age.findAge(request.query.birth);
+    if (ageDay === -1 || ageDay === -2) {
+        err.ageError(requestOptions, response)
+    }
+    else {
+        let pertinentData = fetchData(ageDay, alldata);
+        let replies = rep.createReplie(pertinentData);
+        requestPromise(requestOptions)
+            .then(function(data) {
+                response.json({
+                    data: pertinentData,
+                    set_attributes: {
+                        titre: pertinentData.catégorie,
+                        notification: pertinentData.push
+                    },
+                    "messages": [
+                        replies,
+                    ]
+                });
             });
-        });
+    }
+
+
 });
 
-const PORT = 8080;
+const PORT = 8000;
 
-app.listen(PORT, () => {
-    console.log(`server running on port ${PORT}`)
+// listen for requests
+app.listen(PORT, function () {
+    console.log('Your app is listening on port ' + PORT);
 });
