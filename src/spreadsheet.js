@@ -32,6 +32,7 @@ function fetchData(days) {
             return (alldata[i])
         }
     }
+    return 1;
 }
 
 
@@ -50,23 +51,36 @@ app.get('/api', (request, response) => {
     }
     else {
         let pertinentData = fetchData(ageDay, alldata);
-        let replies = rep.createReplie(pertinentData);
-        requestPromise(requestOptions)
-            .then(function(data) {
-                response.json({
+        if (pertinentData === 1) {
+            console.log("oui")
+            err.ageError(requestOptions, response)
+        }
+        else {
+            console.log(pertinentData.existingblock);
+            if (pertinentData.existingblock) {
+                var jsondata = {
+                    data: pertinentData,
+                    "redirect_to_blocks": [pertinentData.existingblock]
+                };
+            }
+            else {
+                let replies = rep.createReplie(pertinentData);
+                var jsondata = {
                     data: pertinentData,
                     set_attributes: {
                         titre: pertinentData.catégorie,
                         notification: pertinentData.push
                     },
-                    "messages": [
-                        replies,
-                    ]
+                    "messages":
+                        replies
+                };
+            }
+            requestPromise(requestOptions)
+                .then(function (data) {
+                    response.json(jsondata);
                 });
-            });
+        }
     }
-
-
 });
 
 const PORT = 8000;
