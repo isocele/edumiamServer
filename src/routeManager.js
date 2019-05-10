@@ -22,7 +22,7 @@ app.get('/api/user', (request, response) => {
     hubspot.hubspotRoute(request, response);
 });
 
-const PORT = 8000;
+const PORT = 8080;
 
 // listen for requests
 app.listen(PORT, function () {
