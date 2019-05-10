@@ -43,7 +43,6 @@ module.exports = {
             if (pertinentData === 1) {
                 err.ageError(requestOptions, response)
             } else {
-                console.log(pertinentData.existingblock);
                 if (pertinentData.existingblock) {
                     var jsondata = {
                         data: pertinentData,
@@ -58,10 +57,9 @@ module.exports = {
                             notification: pertinentData.push
                         },
                         "messages":
-                        replies
+                            replies
                     };
                 }
-                console.log(jsondata);
                 requestPromise(requestOptions)
                     .then(function (data) {
                         response.json(jsondata);
