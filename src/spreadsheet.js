@@ -23,7 +23,8 @@ doc.useServiceAccountAuth(creds, function (err) {
 // Trouve la colonne du tableau correspondant avec l'age calculé
 function fetchData(days) {
     for (let i = 0; i < alldata.length; i++) {
-        if (parseInt(alldata[i].semainescumulee, 10) === days) {
+//        if (parseInt(alldata[i].semainescumulee, 10) === days) {
+        if (alldata[i].semainescumulee === days) {
             return (alldata[i])
         }
     }
@@ -35,11 +36,14 @@ function fetchData(days) {
 module.exports = {
 
     spreadSheetRoute: function(request, response, requestOptions) {
-        var ageDay = age.findAge(request.query.birth);
+        //var ageDay = age.findAge(request.query.birth);
+        var ageDay = request.query.birth;
+        console.log(ageDay);
         if (ageDay === -1 || ageDay === -2) {
             err.ageError(requestOptions, response)
         } else {
             let pertinentData = fetchData(ageDay, alldata);
+            console.log(pertinentData);
             if (pertinentData === 1) {
                 err.ageError(requestOptions, response)
             } else {

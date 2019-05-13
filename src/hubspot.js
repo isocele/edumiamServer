@@ -1,7 +1,7 @@
 const requestPromise = require('request-promise');
 
 const apikey = "2e27342c-a4bb-4b3c-a1fa-30f8b9b0f702";
-//const email = "contact@edumiam.com";
+const postemail = "contact@edumiam.com";
 const endpoint = "contacts/v1/contact";
 
 var properties = [];
@@ -23,19 +23,13 @@ function createProperties(req) {
 module.exports = {
 
     hubspotRoute: async function (request, response) {
-        let url = 'https://api.hubapi.com/' + endpoint;
+        if (!request.query.email)
+            var url = 'https://api.hubapi.com/' + endpoint;
+        else
+            var url = 'https://api.hubapi.com/' + endpoint;
         try {
             createProperties(request);
             response.json(properties);
-         /**   properties = [
-                {
-                    "property": "firstname",
-                    "value": "Adrian"
-                },
-                {
-                    "property": "lastname",
-                    "value": "Mott"
-                }];**/
             console.log(properties);
             const data = await requestPromise({
                 method: 'POST',
@@ -48,6 +42,7 @@ module.exports = {
                 },
                 json: true
             });
+             console.log(data.vid);
         } catch (err) {
             console.log("ya une erreur");
         }

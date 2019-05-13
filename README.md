@@ -100,6 +100,10 @@ Vous devez avoir une réponse comme ceci :
       
 Attachez-vous à la 2e socket comme suit
 
+      screen -r <socketid>
+      
+dans mon exemple cela revient à :
+
       screen -r 1509
       
 Vous devez vous trouver sur la socket où le serveur tourne dans ce cas passez à l'étape 3 cela devrait ressembler à quelque chose comme suit:
@@ -159,7 +163,13 @@ Si la console affiche :
           at bootstrap_node.js:609:3
       [nodemon] app crashed - waiting for file changes before starting...
 
-cela veut dire que le serveur tourne bel et bien, "ctrl-c" pour arréter votre nouveau serveur. Vous pouvez essayer de vous connecter à d'autres sockets de screen voir le [Wiki](https://doc.ubuntu-fr.org/screen) pour plus d'information. Si vous avez du mal à trouver la socket vous pouvez toujours faire redémarrer le serveur. Voir c-desssous. 
+cela veut dire que le serveur tourne bel et bien, "ctrl-c" pour arréter votre nouveau serveur. Vous pouvez essayer de vous connecter à d'autres sockets de screen voir le [Wiki](https://doc.ubuntu-fr.org/screen) pour plus d'information. 
+Une solution peut être de se détacher de la seconde socket
+
+      screen -d <socketid>
+
+Si vous avez du mal à trouver la socket vous pouvez toujours faire redémarrer le serveur. Voir c-desssous. 
+
 
 #### 3. Mettre à jour le serveur
 
