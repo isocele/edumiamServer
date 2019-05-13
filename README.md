@@ -1,13 +1,13 @@
 # edumiamServer
 A nodejs server to ensure the call from chatfuel and pass the data get from a googleSheets
 
-Un serveur NodeJS s'occupant des appels api venant de chatfuel en ser servant des informations de googleSheets et en mettant à jour Hubspot.
+Un serveur NodeJS s'occupant des appels api venant de chatfuel. Se servant des informations de googleSheets et en mettant à jour Hubspot.
 
 ## Comment s'en servir ?
 
-Voici les quelques étapes pour déployer rebooter (mettre à jour) ou stopper le server
+Voici les quelques étapes pour déployer, rebooter (mettre à jour) ou stopper le server
 
-Commençons pas le plus courant comment mettre à jour le serveur :
+Commençons par le plus courant comment mettre à jour le serveur :
 
 ## Reboot (mettre à jour) Sous Linux
 
@@ -22,7 +22,7 @@ Rendez vous sur le drive de l'equipe Edumiam puis aller dans "IT Dev tech". Vous
 < chemin> étant la localisation du fichier téléchargé précédement.
 
 Remplacer DNS-public par le DNS présent sur l'instance AWS. Pour trouver celle ci connectez-vous sur [AWS](https://us-east-2.console.aws.amazon.com).
-Une fois connecter trouver le menu des instances ou cliquez sur ce [lien vous y amenant](https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#Instances:sort=dnsName). 
+Une fois connecté trouvez le menu des instances ou cliquez sur ce [lien vous y amenant](https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#Instances:sort=dnsName). 
 
 Vous voyez maintenant votre DNS juste là :
 
@@ -34,7 +34,7 @@ par exemple :
 
       ssh -i ~/clefs/AWSsshkey.pem ubuntu@ec2-3-16-160-124.us-east-2.compute.amazonaws.com
 
-Une confirmation est demandé, tapez "yes" puis entré.
+Une confirmation est demandé, tapez "yes" puis Entré.
 Si tout est bon vous devez avoir quelque chose comme suit:
 
       ➜  ~ ssh -i ~/clefs/AWSsshkey.pem ubuntu@ec2-3-16-160-124.us-east-2.compute.amazonaws.com
@@ -70,13 +70,13 @@ Si tout est bon vous devez avoir quelque chose comme suit:
       Last login: Mon May 13 08:45:17 2019 from 195.85.247.129
       ubuntu@ip-172-31-32-71:~$ 
 
-Si ça n'est pas le cas assurez vous que l'instance est bien "running", que votre clef ssh est à l'endroit que vous avez indiqué et que votre dns est correct. Si il n'est toujours pas possible de se connecter à l'instance essayez de la redémarrer. Voir "stopper le serveur" ci-dessous.
+Si ça n'est pas le cas assurez vous que l'instance est bien "running", que votre clef ssh est à l'endroit que vous avez indiqué et que votre DNS est correct. Si il n'est toujours pas possible de se connecter à l'instance essayez de la redémarrer. Voir "stopper le serveur" ci-dessous.
 
 #### 2. Trouver le serveur
 
 - Installer screen: 
       
-      sudo apt update
+      sudo apt upgrade
       sudo apt install screen
 
 - Se connecter au bon screen
@@ -102,7 +102,7 @@ Attachez-vous à la 2e socket comme suit
 
       screen -r 1509
       
-Vous devez vous trouver sur la socket où le serveur tourne dans ce cas passez à l'étape 3 cela devrait ressebler à quelque chose comme suit:
+Vous devez vous trouver sur la socket où le serveur tourne dans ce cas passez à l'étape 3 cela devrait ressembler à quelque chose comme suit:
 
       ubuntu@ip-172-31-32-71:~/edumiamServer$ npm start
       
@@ -115,14 +115,14 @@ Vous devez vous trouver sur la socket où le serveur tourne dans ce cas passez �
       [nodemon] starting `node ./src/routeManager.js`
       Your app is listening on port 8080
 
-Il se peut que des messages écrit par le serveur soit aussi affichés.
+Il se peut que des messages écris par le serveur soit aussi affichés.
 
 Si ça n'est pas le cas il est possible que le serveur soit à l'arrêt, vous pouvez tentez de le lancer pour le vérifier.  
 Pour cela aller dans le dossier possédant le serveur
     
       cd edumiamServer
       
-et lancé le serveur
+et lancez le serveur
 
       npm start
       
@@ -159,7 +159,7 @@ Si la console affiche :
           at bootstrap_node.js:609:3
       [nodemon] app crashed - waiting for file changes before starting...
 
-cela veut dire que le serveur tourne bel et bien, "ctrl-c" pour arréter votre nouveau serveur. Vous pouvez essayer de vous connecter à d'autre sockets de screen. Si vous avez du mal à le trouver vous pouvez toujours faire redémarrer le serveur. Voir c-desssous. 
+cela veut dire que le serveur tourne bel et bien, "ctrl-c" pour arréter votre nouveau serveur. Vous pouvez essayer de vous connecter à d'autres sockets de screen voir le [Wiki](https://doc.ubuntu-fr.org/screen) pour plus d'information. Si vous avez du mal à trouver la socket vous pouvez toujours faire redémarrer le serveur. Voir c-desssous. 
 
 #### 3. Mettre à jour le serveur
 
@@ -177,4 +177,4 @@ Puis entrez vos identifiants github.
       
 Votre serveur doit tourner correctement voir au-dessus si une erreur apparait.
 
-Pour quitter l'instance faites un simple click-droit sur la console et choississez "quitter"
+- Pour quitter l'instance faites un simple click-droit sur la console et choississez "quitter"
