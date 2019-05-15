@@ -19,17 +19,15 @@ function createProperties(req) {
                 "property": item,
                 "value": req.query[item]
             });
-        }
-        else if (item === "Source") {
+        } else if (item === "Source") {
             properties.push({
                 "property": "Chatfuel :" + item,
                 "value": req.query[item]
             });
-        }
-        else if (item === "Country") {
+        } else if (item === "Country") {
             properties.push({
                 "property": item,
-                "value": json[req.query[item].substring(3,5)]
+                "value": json[req.query[item].substring(3, 5)]
             });
         }
     }
@@ -46,6 +44,8 @@ module.exports = {
             console.log(url);
         }
 
+        console.log(request.query.vid);
+
         try {
             createProperties(request);
             //    console.log(properties);
@@ -61,22 +61,23 @@ module.exports = {
                 vid: request.query.vid,
                 json: true
             });
-            var setattributes = {};
-
             if (!request.query.email) {
-                setattributes = {
+                response.json({
+                    data: properties,
                     "set_attributes": {
-                        "vid": data.vid
+                        "vid": "" + data.vid + ""
                     }
-                };
+                });
+            } else {
+                response.json({
+                    data: properties,
+                });
             }
-            response.json({
-                data: properties,
-                setattributes
-            });
             console.log(data);
-        } catch (err) {
-            console.log(err);
+        } catch
+            (err) {
+            console.log("err");
         }
     }
-};
+}
+;
