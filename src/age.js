@@ -17,10 +17,7 @@ findAge: function(birth) {
         var date = new Date();
         // Calcul le nombre de jour exact séparant la date d'aujourd'hui à la date de naissance
         var ageDay = (date.getUTCFullYear() - year) * 365 + ( ( - parseInt(month, 10) + date.getUTCMonth() + 1) * 30.5) + (date.getUTCDate() - day)
-        if (ageDay < 0)
-            return -2;
-        console.log(parseInt(ageDay/ 7, 10) + 1)
-        return (parseInt(ageDay/ 7, 10) + 1)
+        return (parseInt(ageDay, 10))
     }
     return -1;
 }

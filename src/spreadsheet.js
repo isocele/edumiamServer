@@ -1,4 +1,3 @@
-/// init project
 const requestPromise = require('request-promise');
 const GoogleSpreadsheet = require('google-spreadsheet');
 const creds = require('./../client_secret.json');
@@ -23,49 +22,51 @@ doc.useServiceAccountAuth(creds, function (err) {
 // Trouve la colonne du tableau correspondant avec l'age calculé
 function fetchData(days) {
     for (let i = 0; i < alldata.length; i++) {
-//        if (parseInt(alldata[i].semainescumulee, 10) === days) {
-        if (alldata[i].semainescumulee === days) {
+        if (parseInt(alldata[i].jourcumule, 10) === days) {
             return (alldata[i])
         }
     }
-    return 1;
+    // Gestion des exeptions plus vieux ou plus jeune que prévus
+    if (days > 1095)
+        return (alldata[1096]);
+    else if (days < 0)
+        return (alldata[-1]);
+    return (-1);
 }
-
 
 
 module.exports = {
 
-    spreadSheetRoute: function(request, response, requestOptions) {
-        //var ageDay = age.findAge(request.query.birth);
-        var ageDay = request.query.birth;
-        console.log(ageDay);
-        if (ageDay === -1 || ageDay === -2) {
-            err.ageError(requestOptions, response)
-        } else {
+    spreadSheetRoute: function (request, response, requestOptions) {
+        var ageDay = age.findAge(request.query.birth);
+        if (ageDay === -1)
+            err.ageError(requestOptions, response);
+        else {
             let pertinentData = fetchData(ageDay, alldata);
-            console.log(pertinentData);
-            if (pertinentData === 1) {
-                err.ageError(requestOptions, response)
+            if (pertinentData === -1) {
+                err.dayError(requestOptions, response)
             } else {
-                if (pertinentData.existingblock) {
-                    var jsondata = {
-                        data: pertinentData,
-                        "redirect_to_blocks": [pertinentData.existingblock]
-                    };
-                } else {
+                // Affiche un block personnalisé ou un block existant dans Chatfuel
+                var jsondata;
+                if (!pertinentData.existingblock) {
                     let replies = rep.createReplie(pertinentData);
-                    var jsondata = {
+                    jsondata = {
                         data: pertinentData,
                         set_attributes: {
                             titre: pertinentData.catégorie,
                             notification: pertinentData.push
                         },
                         "messages":
-                            replies
+                        replies
+                    };
+                } else {
+                    jsondata = {
+                        data: pertinentData,
+                        "redirect_to_blocks": [pertinentData.existingblock]
                     };
                 }
                 requestPromise(requestOptions)
-                    .then(function (data) {
+                    .then(function () {
                         response.json(jsondata);
                     });
             }
