@@ -3,11 +3,12 @@ const GoogleSpreadsheet = require('google-spreadsheet');
 const creds = require('./../client_secret.json');
 
 const age = require('./age.js');
-const err = require('./errorHandle.js')
-const rep = require('./createReplie.js')
+const err = require('./errorHandle.js');
+const rep = require('./createReplie.js');
 
 // Ouvre ou créer un document GoogleSheets selon l'url
-const doc = new GoogleSpreadsheet('11b-R9LT6SlAwCXYhXDyYGg-pw0p0okDnHzswG-qUfDM');
+const doc = new GoogleSpreadsheet('1tcGXwUPpehBN-ynWwYJoC5zn33YiqswCYsJQGZeNyD0');
+// Pour plus d'info se référer : https://www.twilio.com/blog/2017/03/google-spreadsheets-and-javascriptnode-js.html
 
 let alldata = [];
 // Se connect au Google Spreadsheets API.

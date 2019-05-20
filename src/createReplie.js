@@ -9,8 +9,7 @@ function createText(data) {
     replie.push({
         "text": data.content,
         quick_replies
-    })
-    console.log(replie);
+    });
 }
 
 function createMedia(data) {
@@ -23,11 +22,12 @@ function createMedia(data) {
             "payload": {
                 "url": data.content
             }
-        }
+        },
+        quick_replies
     })
 }
 
-function createGallerie(data) {
+/*function createGallerie(data) {
     replie = {
         "attachment": {
             "type": "image",
@@ -62,21 +62,28 @@ function parseMainType(data) {
 
 function addButton(title, url) {
     console.log(title)
-}
+}*/
 
 function addQuickReplie(rep) {
 
     var quick_replies = [];
     for (let i = 0; i < rep[0].length; i++) {
-        quick_replies.push({
-            "title":rep[0][i],
-            "block_name": rep[1][i],
-        })
+        // if (rep[1][i].substring(0, 5) === "block") {
+
+            quick_replies.push({
+                "title": rep[0][i],
+                "block_names": [rep[1][i].substring(6)],
+            })
+/*
+        } else if (rep[1][i].substring(0, 5) === "value") {
+            quick_replies.push({
+                "title": rep[0][i],
+                "set_value": [rep[1][i].substring(6)],
+            })
+        }
+*/
     }
-    /** var quick_replies = [{
-          "title":"Not really...",
-          "url": "https://rockets.chatfuel.com/api/sad-match",
-        }];**/
+    console.log(quick_replies);
     return quick_replies;
 }
 
@@ -84,7 +91,7 @@ function addTitle(title) {
     replie.push({"text": title});
 }
 
-/**function parseButton(data) {
+/*function parseButton(data) {
     var lines = parse.countLine(data.buttons);
 
     if (lines !== parse.countLine(data.buttonsurl)) {
@@ -113,7 +120,7 @@ function addTitle(title) {
     for (let i = 0; i < lines; i++) {
         addQuickReplie(title[i], urls[i]);
     }
-}**/
+}*/
 
 function parseResponse(titles, urls) {
     var lines = parse.countLine(titles);
@@ -121,11 +128,7 @@ function parseResponse(titles, urls) {
     if (lines !== parse.countLine(urls)) {
         console.log("il n'y a pas le meme nombre de buttons / url")
     }
-    else {
-        var ptitles = parse.strToArray(titles, lines);
-        var purls = parse.strToArray(urls, lines);
-    }
-    return ([ptitles, purls]);
+    return ([parse.strToArray(titles, lines), parse.strToArray(urls, lines)]);
 }
 
 module.exports = {
@@ -135,13 +138,13 @@ module.exports = {
             delete replie[item];
         replie = [];
 
-        console.log(data);
         addTitle(data.title);
-        parseMainType(data);
+        if (data.maintype === "text")
+            createText(data);
+        else
+            createMedia(data);
         if (data.buttons)
             parseResponse(data.buttons, data.buttonsurl);
-        if (data.quickreplies)
-            addQuickReplie(parseResponse(data.quickreplies, data.quickrepliesurl));
         return (replie)
     },
 };

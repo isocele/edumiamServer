@@ -51,11 +51,25 @@ async function newFavoris(req) {
     return ("success")
 }
 
+async function createFavReplie(req) {
+    const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile"
+    var favoris = await hubspotApi(req, url, {},'GET');
+
+
+}
 
 module.exports = {
 
     addFavorisRoute: async function (req, response) {
         const result = await newFavoris(req);
+
+        response.json({
+            result
+        });
+    },
+
+    drawFavorisRoute: async function (req, response) {
+        const result = await new(req);
 
         response.json({
             result

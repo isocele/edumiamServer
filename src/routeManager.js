@@ -8,9 +8,9 @@ const favoris = require('./favoris.js');
 app.use(express.static('public'));
 
 
-// All the different API of the server
+// Toute les routes pour les différentes requètes
 
-// Return a block directly draw on chatfuel
+// Retourne un block affiché directement sur chatfuel
 app.get('/api/notif', (request, response) => {
     const requestOptions = {
         uri: 'https://www.google.com/',
@@ -22,14 +22,19 @@ app.get('/api/notif', (request, response) => {
     sheets.spreadSheetRoute(request, response, requestOptions);
 });
 
-// Can create or update a user
+// Peut créer ou mettre à jour un profil sur Hubspot
 app.get('/api/user', (request, response) => {
     hubspot.hubspotRoute(request, response);
 });
 
-// Can add favoris
+// Peut ajouter un favoris dans la DB Hubspot
 app.get('/api/favoris/new', (request, response) => {
     favoris.addFavorisRoute(request, response);
+});
+
+// Affiche les favoris présent sur Hubspot directement sur Chatfuel
+app.get('/api/favoris/draw', (request, response) => {
+    favoris.drawFavorisRoute(request, response);
 });
 
 
