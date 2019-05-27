@@ -20,30 +20,31 @@ doc.useServiceAccountAuth(creds, function (err) {
     });
 });
 
-// Trouve la colonne du tableau correspondant avec l'age calculé
-function fetchData(days) {
-    for (let i = 0; i < alldata.length; i++) {
-        if (parseInt(alldata[i].jourcumule, 10) === days) {
-            return (alldata[i])
-        }
-    }
-    // Gestion des exeptions plus vieux ou plus jeune que prévus
-    if (days > 1095)
-        return (alldata[1096]);
-    else if (days < 0)
-        return (alldata[-1]);
-    return (-1);
-}
-
 
 module.exports = {
+
+    // Trouve la colonne du tableau correspondant avec l'age calculé
+    fetchData: function (days) {
+        console.log(days);
+        for (let i = 0; i < alldata.length; i++) {
+            if (parseInt(alldata[i].jourcumule, 10) === days) {
+                return (alldata[i])
+            }
+        }
+        // Gestion des exeptions plus vieux ou plus jeune que prévus
+        if (days > 1095)
+            return (alldata[1096]);
+        else if (days < 0)
+            return (alldata[-1]);
+        return (-1);
+    },
 
     spreadSheetRoute: function (request, response, requestOptions) {
         var ageDay = age.findAge(request.query.birth);
         if (ageDay === -1)
             err.ageError(requestOptions, response);
         else {
-            let pertinentData = fetchData(ageDay, alldata);
+            let pertinentData = fetchData(ageDay);
             if (pertinentData === -1) {
                 err.dayError(requestOptions, response)
             } else {

@@ -1,6 +1,10 @@
 const requestPromise = require('request-promise');
 const apikey = "2e27342c-a4bb-4b3c-a1fa-30f8b9b0f702";
 
+const parse = require('./parsingTools.js');
+const sheets = require('./spreadsheet');
+
+
 async function hubspotApi(req, url, properties, method) {
     var ret;
     console.log(properties);
@@ -29,33 +33,53 @@ async function hubspotApi(req, url, properties, method) {
 
 function createFavoris(req) {
     if (req.query.push)
-        return ("push:" + req.query.push);
+        return ("push: " + req.query.push);
     if (req.query.block)
-        return ("block:" + req.query.block)
+        return ("block: " + req.query.block)
 }
 
 async function newFavoris(req) {
-    const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile"
+    const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile";
     var favoris = await hubspotApi(req, url, {},'GET');
 
     if (favoris === -1)
         return ("failure");
-    var fav = favoris.properties.favoris.value + "\n" + createFavoris(req);
-    console.log(fav);
+    var fav = {};
+    if (favoris.properties.favoris && favoris.properties.favoris.value)
+        fav = favoris.properties.favoris.value + "\n" + createFavoris(req);
+    else
+        fav = createFavoris(req);
 
     const ndata = hubspotApi(req, url, [{
         "property": "favoris",
         "value": fav
     }], 'POST');
 
-    return ("success")
+    return ({
+        "success": 200,
+        "messages": [
+            {"text": "Vous avez ajoutez un nouveau favori !"},
+        ]});
 }
 
-async function createFavReplie(req) {
-    const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile"
-    var favoris = await hubspotApi(req, url, {},'GET');
+function addtoGallerie() {
 
+}
 
+async function drawFavoris(req) {
+    const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile";
+    var info = await hubspotApi(req, url, {},'GET');
+    var favoris = parse.strToArray(info.properties.favoris.value);
+
+    for (let i = 0; i < favoris.length ; i++) {
+        if (favoris[i].substring(0, favoris[i].search(':')) === "push") {
+            addtoGallerie(sheets.fetchData(parseInt(favoris[i].substring(favoris[i].search(":") + 2, favoris[i].length), 10)));
+
+        }
+        else {
+            console.log(favoris[i].substring(0, favoris[i].search(':')));
+        }
+    }
 }
 
 module.exports = {
@@ -63,16 +87,13 @@ module.exports = {
     addFavorisRoute: async function (req, response) {
         const result = await newFavoris(req);
 
-        response.json({
-            result
-        });
+        response.json(result);
     },
 
     drawFavorisRoute: async function (req, response) {
-        const result = await new(req);
+        const result = await drawFavoris(req);
 
-        response.json({
-            result
-        });
+        response.json(
+            result);
     }
 };

@@ -3,6 +3,10 @@ A nodejs server to ensure the call from chatfuel and pass the data get from a go
 
 Un serveur NodeJS s'occupant des appels api venant de chatfuel. Se servant des informations de googleSheets et en mettant à jour Hubspot.
 
+Une documentation vous est disponible
+
+[API](Docs/API.md:1)
+
 ## Comment s'en servir ?
 
 Voici les quelques étapes pour déployer, rebooter (mettre à jour) ou stopper le server

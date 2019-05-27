@@ -1,5 +1,8 @@
 const requestPromise = require('request-promise');
 const json = require('../assets/countrydata.json'); //(with path)
+const parse = require('./parsingTools.js');
+const error = require('./errorHandle.js');
+
 //http://isocele-edumiamserver-3.glitch.me/api/user?lastname={{last name}}&firstname={{first name}}&email={{email}}&vid={{vid}}&Country={{locale}}&Gender={{gender}}&Chatfuel_user_id={{chatfuel user id}}&Chatbot_subscription={{abonné}}&City={{city}}&Postal_code={{zip}}&Street_address={{address}}
 
 const apikey = "2e27342c-a4bb-4b3c-a1fa-30f8b9b0f702";
@@ -39,11 +42,16 @@ function createProperties(req) {
 
 module.exports = {
 
-    hubspotRoute: async function (request, response) {
+    hubspotRoute: async function (request, response, requestOptions) {
+        var url = '';
+
         if (!request.query.email)
-            var url = 'https://api.hubapi.com/' + endpoint;
+            url = 'https://api.hubapi.com/' + endpoint;
         else {
-            var url = 'https://api.hubapi.com/' + endpoint + "/vid/" + request.query.vid + "/profile";
+            if (parse.isitMail(request.query.email))
+                url = 'https://api.hubapi.com/' + endpoint + "/vid/" + request.query.vid + "/profile";
+            else
+                return error.emailError(requestOptions, response);
         }
 
         try {
@@ -64,6 +72,7 @@ module.exports = {
             if (!request.query.email) {
                 response.json({
                     data: properties,
+                    status: 200,
                     "set_attributes": {
                         "vid": "" + data.vid + ""
                     }
@@ -73,12 +82,11 @@ module.exports = {
                     data: properties,
                 });
             }
-            console.log(data);
         } catch
             (err) {
-            console.log(err);
+            error.requestError(requestOptions, response);
+            console.log(err.message);
             console.log("^ Error ^");
         }
     }
-}
-;
+};
