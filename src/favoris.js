@@ -3,6 +3,7 @@ const apikey = "2e27342c-a4bb-4b3c-a1fa-30f8b9b0f702";
 
 const parse = require('./parsingTools.js');
 const sheets = require('./spreadsheet');
+var gallerie = {};
 
 
 async function hubspotApi(req, url, properties, method) {
@@ -40,7 +41,7 @@ function createFavoris(req) {
 
 async function newFavoris(req) {
     const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile";
-    var favoris = await hubspotApi(req, url, {},'GET');
+    var favoris = await hubspotApi(req, url, {}, 'GET');
 
     if (favoris === -1)
         return ("failure");
@@ -59,24 +60,52 @@ async function newFavoris(req) {
         "success": 200,
         "messages": [
             {"text": "Vous avez ajoutez un nouveau favori !"},
-        ]});
+        ]
+    });
 }
 
-function addtoGallerie() {
+function initGallerie() {
+    gallerie = {
+        "messages": [
+            {
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "generic",
+                        "elements": []
+                    }
+                }
+            }
+        ]
+    };
+}
 
+function addtoGallerie(block) {
+
+    gallerie.messages[0].attachment.payload.elements.push({
+        "title": block.title,
+        "image_url": block.content,
+        "buttons": [
+            {
+                "type": "web_url",
+                "url": "https://developers.google.com/speed/webp/gallery1",
+                "title": "Supprimer des favoris"
+            }
+        ]
+    });
 }
 
 async function drawFavoris(req) {
     const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile";
-    var info = await hubspotApi(req, url, {},'GET');
+    var info = await hubspotApi(req, url, {}, 'GET');
     var favoris = parse.strToArray(info.properties.favoris.value);
 
-    for (let i = 0; i < favoris.length ; i++) {
+    initGallerie();
+    for (let i = 0; i < favoris.length; i++) {
         if (favoris[i].substring(0, favoris[i].search(':')) === "push") {
             addtoGallerie(sheets.fetchData(parseInt(favoris[i].substring(favoris[i].search(":") + 2, favoris[i].length), 10)));
 
-        }
-        else {
+        } else {
             console.log(favoris[i].substring(0, favoris[i].search(':')));
         }
     }
@@ -94,6 +123,6 @@ module.exports = {
         const result = await drawFavoris(req);
 
         response.json(
-            result);
+            gallerie);
     }
 };
