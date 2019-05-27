@@ -3,6 +3,8 @@ const apikey = "2e27342c-a4bb-4b3c-a1fa-30f8b9b0f702";
 
 const parse = require('./parsingTools.js');
 const sheets = require('./spreadsheet');
+const replie = require('./createReplie');
+
 var gallerie = {};
 
 
@@ -81,17 +83,15 @@ function initGallerie() {
 }
 
 function addtoGallerie(block) {
+    var buttons = [];
 
+    if (block.buttonstitle)
+        buttons = replie.createButtons(block);
+    console.log(buttons);
     gallerie.messages[0].attachment.payload.elements.push({
         "title": block.title,
         "image_url": block.content,
-        "buttons": [
-            {
-                "type": "web_url",
-                "url": "https://developers.google.com/speed/webp/gallery1",
-                "title": "Supprimer des favoris"
-            }
-        ]
+        buttons
     });
 }
 

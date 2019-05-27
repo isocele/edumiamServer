@@ -150,6 +150,10 @@ function parseResponse(titles, urls) {
 
 module.exports = {
 
+    createButtons(but) {
+        return addButtons(parseResponse(but.buttonstitle, but.buttonsuse))
+    },
+
     createReplie: function (data) {
         for (var item in replie)
             delete replie[item];
