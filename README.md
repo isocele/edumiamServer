@@ -6,5 +6,5 @@ Un serveur NodeJS hébergé par AWS s'occupant des appels api venant de chatfuel
 Si vous souhaitez savoir comment faire démarrez le serveur c'est [ici qu'il faut aller](Docs/Start.md)
 
 Une documentation concernant les routes API vous est disponible:
-[API](Docs/API.md:1)
+[API](Docs/API.md)
 
