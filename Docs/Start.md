@@ -214,5 +214,5 @@ Patientez le temps que **Instance State** passe de *pending* en jaune à *runnin
 
 #### 4. Connectez-vous à l'instance
 
-Cette partie est dejà detaillé dans le 1. de [*Reboot*](Docs/Start.md:1) (NOTE: Il n'est pas nécessaire de refaire toutes les étapes si vous avez dejà lancé une première fois le serveur)
+Cette partie est dejà detaillé dans le 1. de [*Reboot*](Start.md:1) (NOTE: Il n'est pas nécessaire de refaire toutes les étapes si vous avez dejà lancé une première fois le serveur)
 
