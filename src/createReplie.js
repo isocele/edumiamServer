@@ -4,12 +4,33 @@ var replie = [];
 
 function createText(data) {
     var quick_replies = {};
-    if (data.quickreplies)
+    var buttons = {};
+
+    if (data.quickreplies) {
         quick_replies = addQuickReplie(parseResponse(data.quickreplies, data.quickrepliesurl));
-    replie.push({
-        "text": data.content,
-        quick_replies
-    });
+        replie.push({
+            "text": data.content,
+            quick_replies
+        });
+    }
+    else if (data.buttontitle) {
+        buttons = addButtons(parseResponse(data.buttontitle, data.buttonuse), data);
+        replie.push({
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "button",
+                        "text": data.content,
+                        buttons
+                    }
+                }
+        });
+    }
+    else {
+        replie.push({
+            "text": data.content
+        });
+    }
 }
 
 function createMedia(data) {
@@ -35,9 +56,8 @@ function createMedia(data) {
         replie[replie.length -1].quick_replies = quick_replies;
     }
 
-    console.log(data);
     if (data.buttontitle)  {
-        var buttons = addButtons(parseResponse(data.buttontitle, data.buttonuse));
+        var buttons = addButtons(parseResponse(data.buttontitle, data.buttonuse), data);
         replie[1].attachment.payload.elements =   [{
             "title": data.title,
             "image_url": data.content,
@@ -59,15 +79,19 @@ function addQuickReplie(rep) {
     return quick_replies;
 }
 
-function addButtons(rep) {
+function addButtons(rep, data) {
     var buttons = [];
-
     for (let i = 0; i < rep[0].length; i++) {
-        buttons.push({
+/*        buttons.push({
             "type": rep[0][i].substring(0, rep[0][i].search(":")),
             "title": rep[0][i].substring(rep[0][i].search(" ") + 1, rep[0][i].length),
             [rep[1][i].substring(0, rep[1][i].search(":"))]: rep[1][i].substring(rep[1][i].search(":") + 2, rep[1][i].length)
-        })
+        })*/
+        buttons.push({
+            "type": data.buttontype,
+            "title": data.buttontitle,
+            "url": data.buttonuse
+        });
     }
     return buttons;
 }
@@ -117,8 +141,6 @@ module.exports = {
             createText(data);
         else
             createMedia(data);
-        if (data.buttontitle)
-            addButtons(parseResponse(data.buttontitle, data.buttonuse));
         return (replie)
     },
 };

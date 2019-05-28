@@ -17,7 +17,7 @@ module.exports = {
         requestPromise(requestOptions)
             .then(function () {
                 response.json({
-                    status: 404,
+                    status: 405,
                     log: "No data for this peticular day"
                 })
 
@@ -29,7 +29,7 @@ module.exports = {
         requestPromise(requestOptions)
             .then(function () {
                 response.json({
-                    status: 405,
+                    status: 403,
                     log: "Error in the request"
                 })
 
@@ -41,7 +41,7 @@ module.exports = {
         requestPromise(requestOptions)
             .then(function () {
                 response.json({
-                    status: 402,
+                    status: 401,
                     log: "Email invalid"
                 })
 

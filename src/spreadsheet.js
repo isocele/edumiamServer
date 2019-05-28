@@ -7,7 +7,7 @@ const err = require('./errorHandle.js');
 const rep = require('./createReplie.js');
 
 // Ouvre ou créer un document GoogleSheets selon l'url
-const doc = new GoogleSpreadsheet('1tcGXwUPpehBN-ynWwYJoC5zn33YiqswCYsJQGZeNyD0');
+const doc = new GoogleSpreadsheet('1K2kx6gJ5Ygmy4Jyp8XO7HMXWfN34Psf2ibKsu0EhQaQ');
 // Pour plus d'info se référer : https://www.twilio.com/blog/2017/03/google-spreadsheets-and-javascriptnode-js.html
 
 let alldata = [];
@@ -25,9 +25,9 @@ module.exports = {
 
     // Trouve la colonne du tableau correspondant avec l'age calculé
     fetchData: function (days) {
-        console.log(days);
         for (let i = 0; i < alldata.length; i++) {
-            if (parseInt(alldata[i].jourcumule, 10) === days) {
+            console.log(alldata[i].cumulativeday);
+            if (parseInt(alldata[i].cumulativeday, 10) === days) {
                 return (alldata[i])
             }
         }
@@ -41,22 +41,24 @@ module.exports = {
 
     spreadSheetRoute: function (request, response, requestOptions) {
         var ageDay = age.findAge(request.query.birth);
+
         if (ageDay === -1)
             err.ageError(requestOptions, response);
         else {
             let pertinentData = this.fetchData(ageDay);
+
             if (pertinentData === -1) {
                 err.dayError(requestOptions, response)
-            } else {
+            } else if (pertinentData.state && pertinentData.state !== " ") {
                 // Affiche un block personnalisé ou un block existant dans Chatfuel
                 var jsondata;
-                if (!pertinentData.existingblock) {
+                if (!pertinentData.blockname || pertinentData.blockname === " ") {
                     let replies = rep.createReplie(pertinentData);
                     jsondata = {
                         data: pertinentData,
                         set_attributes: {
-                            titre: pertinentData.catégorie,
-                            notification: pertinentData.push
+                            titre: pertinentData.title,
+                            notification: pertinentData.content
                         },
                         "messages":
                         replies
@@ -64,14 +66,15 @@ module.exports = {
                 } else {
                     jsondata = {
                         data: pertinentData,
-                        "redirect_to_blocks": [pertinentData.existingblock]
+                        "redirect_to_blocks": [pertinentData.blockname]
                     };
                 }
                 requestPromise(requestOptions)
                     .then(function () {
                         response.json(jsondata);
                     });
-            }
+            } else
+                err.dayError(requestOptions, response);
         }
     }
 };
