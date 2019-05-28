@@ -20,27 +20,33 @@ app.use(express.static('public'));
 
 // Retourne un block affiché directement sur chatfuel
 app.get('/api/notif', (request, response) => {
-
     sheets.spreadSheetRoute(request, response, requestOptions);
-});
+})
 
 // Peut créer ou mettre à jour un profil sur Hubspot
-app.get('/api/user', (request, response) => {
+.get('/api/user', (request, response) => {
     hubspot.hubspotRoute(request, response, requestOptions);
-});
+})
 
 // Peut ajouter un favoris dans la DB Hubspot
-app.get('/api/favoris/new', (request, response) => {
+.get('/api/favoris/new', (request, response) => {
     favoris.addFavorisRoute(request, response, requestOptions);
-});
+})
 
 // Affiche les favoris présent sur Hubspot directement sur Chatfuel
-app.get('/api/favoris/draw', (request, response) => {
+.get('/api/favoris/draw', (request, response) => {
     favoris.drawFavorisRoute(request, response, requestOptions);
 });
 
 
 const PORT = 8080;
+
+// ... Tout le code de gestion des routes (app.get) se trouve au-dessus
+
+app.use(function(req, res, next){
+    res.setHeader('Content-Type', 'text/plain');
+    res.status(404).send('Page introuvable !');
+});
 
 // listen for requests
 app.listen(PORT, function () {

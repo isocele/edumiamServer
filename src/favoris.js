@@ -85,9 +85,8 @@ function initGallerie() {
 function addtoGallerie(block) {
     var buttons = [];
 
-    if (block.buttonstitle)
+    if (block.buttontitle)
         buttons = replie.createButtons(block);
-    console.log(buttons);
     gallerie.messages[0].attachment.payload.elements.push({
         "title": block.title,
         "image_url": block.content,

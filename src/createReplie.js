@@ -35,8 +35,9 @@ function createMedia(data) {
         replie[replie.length -1].quick_replies = quick_replies;
     }
 
-    if (data.buttonstitle)  {
-        var buttons = addButtons(parseResponse(data.buttonstitle, data.buttonsuse));
+    console.log(data);
+    if (data.buttontitle)  {
+        var buttons = addButtons(parseResponse(data.buttontitle, data.buttonuse));
         replie[1].attachment.payload.elements =   [{
             "title": data.title,
             "image_url": data.content,
@@ -45,39 +46,6 @@ function createMedia(data) {
         }]
     }
 }
-
-/*function createGallerie(data) {
-    replie = {
-        "attachment": {
-            "type": "image",
-            "payload": {
-                "url": data.content
-            }
-        }
-    }
-}
-
-function parseMainType(data) {
-    switch (data.maintype) {
-        case "text" :
-            createText(data);
-            break;
-        case "image":
-            createMedia(data);
-            break;
-        case "video":
-            createMedia(data);
-            break;
-        case "son":
-            createMedia(data);
-            break;
-        case "gallerie":
-            createGallerie(data);
-            break;
-        default:
-            break;
-    }
-}*/
 
 function addQuickReplie(rep) {
     var quick_replies = [];
@@ -121,27 +89,12 @@ function addTitle(title) {
     for (let i = 0; i < lines; i++) {
         addButton(title[i], urls[i]);
     }
-}
-
- function parseQuickReplie(data) {
-    var lines = parse.countLine(data.quickreplies);
-
-    if (lines !== parse.countLine(data.quickrepliesurl)) {
-        console.log("il n'y a pas le meme nombre de buttons / url")
-    }
-    else {
-        var title = parse.strToArray(data.quickreplies, lines);
-        var urls = parse.strToArray(data.quickrepliesurl, lines);
-    }
-    console.log(urls);
-    for (let i = 0; i < lines; i++) {
-        addQuickReplie(title[i], urls[i]);
-    }
 }*/
 
 function parseResponse(titles, urls) {
     var lines = parse.countLine(titles);
 
+    console.log(urls);
     if (lines !== parse.countLine(urls)) {
         console.log("il n'y a pas le meme nombre de buttons / url")
     }
@@ -151,7 +104,7 @@ function parseResponse(titles, urls) {
 module.exports = {
 
     createButtons(but) {
-        return addButtons(parseResponse(but.buttonstitle, but.buttonsuse))
+        return addButtons(parseResponse(but.buttontitle, but.buttonuse))
     },
 
     createReplie: function (data) {
@@ -164,8 +117,8 @@ module.exports = {
             createText(data);
         else
             createMedia(data);
-        if (data.buttonstitle)
-            addButtons(parseResponse(data.buttonstitle, data.buttonsuse));
+        if (data.buttontitle)
+            addButtons(parseResponse(data.buttontitle, data.buttonuse));
         return (replie)
     },
 };

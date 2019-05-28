@@ -45,14 +45,13 @@ module.exports = {
     hubspotRoute: async function (request, response, requestOptions) {
         var url = '';
 
-        if (!request.query.email)
-            url = 'https://api.hubapi.com/' + endpoint;
-        else {
-            if (parse.isitMail(request.query.email))
-                url = 'https://api.hubapi.com/' + endpoint + "/vid/" + request.query.vid + "/profile";
-            else
+        console.log(request.query.vid);
+        if (request.query.email && !parse.isitMail(request.query.email))
                 return error.emailError(requestOptions, response);
-        }
+        if (!request.query.vid)
+            url = 'https://api.hubapi.com/' + endpoint;
+        else
+            url = 'https://api.hubapi.com/' + endpoint + "/vid/" + request.query.vid + "/profile";
 
         try {
             createProperties(request);
@@ -69,7 +68,7 @@ module.exports = {
                 vid: request.query.vid,
                 json: true
             });
-            if (!request.query.email) {
+            if (!request.query.vid) {
                 response.json({
                     data: properties,
                     status: 200,
@@ -85,7 +84,7 @@ module.exports = {
         } catch
             (err) {
             error.requestError(requestOptions, response);
-            console.log(err.message);
+            console.log(err);
             console.log("^ Error ^");
         }
     }

@@ -44,7 +44,7 @@ module.exports = {
         if (ageDay === -1)
             err.ageError(requestOptions, response);
         else {
-            let pertinentData = fetchData(ageDay);
+            let pertinentData = this.fetchData(ageDay);
             if (pertinentData === -1) {
                 err.dayError(requestOptions, response)
             } else {
