@@ -39,7 +39,6 @@ module.exports = {
 
     // Trouve la colonne du tableau correspondant avec l'id (jour cummulé ou id favoris)
     fetchData: function (id, data) {
-    console.log(data);
         for (let i = 0; i < data.length; i++) {
             if (parseInt(data[i].id, 10) === id) {
                 return (data[i])
@@ -54,9 +53,11 @@ module.exports = {
     },
 
     getSheetsData: async function (url) {
+        // Ouvre ou créer un document GoogleSheets selon l'url
         const doc = new GoogleSpreadsheet(url);
         let data = [];
 
+        // Pour plus d'info se référer : https://www.twilio.com/blog/2017/03/google-spreadsheets-and-javascriptnode-js.html
         // Se connecte au Google Spreadsheets API.
         data = doc.useServiceAccountAuth(creds, function (err) {
             // Obtiens les information du SpreadSheets
@@ -76,21 +77,19 @@ module.exports = {
     },
 
     spreadSheetRoute: async function (request, response, requestOptions) {
-
         var ageDay = age.findAge(request.query.birth);
+
         if (ageDay === -1)
             err.ageError(requestOptions, response);
         else {
-            // Ouvre ou créer un document GoogleSheets selon l'url
-            console.log(ageDay);
-            // Pour plus d'info se référer : https://www.twilio.com/blog/2017/03/google-spreadsheets-and-javascriptnode-js.html
             let allData = await this.getSheetsData('1K2kx6gJ5Ygmy4Jyp8XO7HMXWfN34Psf2ibKsu0EhQaQ');
             let pertinentData = this.fetchData(ageDay, allData);
             if (pertinentData === -1)
                 err.dayError(requestOptions, response);
-            else if (pertinentData.state && pertinentData.state !== " ")
+            else if (pertinentData.state && pertinentData.state !== " ") {
+                console.log('ok');
                 createResponse(pertinentData, requestOptions, response);
-            else
+            } else
                 err.dayError(requestOptions, response);
         }
     }

@@ -3,7 +3,7 @@ const requestPromise = require('request-promise');
 module.exports = {
 
     ageError: function(requestOptions, response) {
-        console.log(requestOptions);
+        console.log("402: Date of birth is invalid");
         requestPromise(requestOptions)
         .then(function() {
             response.json({
@@ -14,6 +14,7 @@ module.exports = {
     },
 
     dayError: function(requestOptions, response) {
+        console.log("405: No data for this peticular day");
         requestPromise(requestOptions)
             .then(function () {
                 response.json({
@@ -25,7 +26,7 @@ module.exports = {
     },
 
     requestError: function(requestOptions, response) {
-        console.log(requestOptions);
+        console.log("403: Error in the request");
         requestPromise(requestOptions)
             .then(function () {
                 response.json({
@@ -37,7 +38,7 @@ module.exports = {
     },
 
     emailError: function(requestOptions, response) {
-        console.log(requestOptions);
+        console.log("401: Email Invalid");
         requestPromise(requestOptions)
             .then(function () {
                 response.json({

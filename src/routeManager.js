@@ -20,21 +20,25 @@ app.use(express.static('public'));
 
 // Retourne un block affiché directement sur chatfuel
 app.get('/api/notif', (request, response) => {
+    console.log("!-- Requéte pour trouver la natification adéquate");
     notif.spreadSheetRoute(request, response, requestOptions);
 })
 
 // Peut créer ou mettre à jour un profil sur Hubspot
 .get('/api/user', (request, response) => {
+    console.log("!-- Requéte pour mettre à jour l'utilisateur");
     hubspot.hubspotRoute(request, response, requestOptions);
 })
 
 // Peut ajouter un favoris dans la DB Hubspot
 .get('/api/favoris/new', (request, response) => {
+    console.log("!-- Requéte pour ajouter un favoris");
     favoris.addFavorisRoute(request, response, requestOptions);
 })
 
 // Affiche les favoris présent sur Hubspot directement sur Chatfuel
 .get('/api/favoris/draw', (request, response) => {
+    console.log("!-- Requéte pour affciher les favoris");
     favoris.drawFavorisRoute(request, response, requestOptions);
 });
 

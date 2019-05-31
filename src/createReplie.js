@@ -61,7 +61,7 @@ function createMedia(data) {
         replie[replie.length -1].quick_replies = quick_replies;
     }
 
-    if (data.buttontitle)  {
+    if (data.buttontitle || data.favori)  {
         var buttons = addButtons(parseResponse(data.buttontitle, data.buttonuse), data);
         replie[replie.length -1].attachment.payload.elements =   [{
             "title": data.title,
@@ -86,17 +86,19 @@ function addQuickReplie(rep) {
 
 function addButtons(rep, data) {
     var buttons = [];
-    for (let i = 0; i < rep[0].length; i++) {
-/*        buttons.push({
-            "type": rep[0][i].substring(0, rep[0][i].search(":")),
-            "title": rep[0][i].substring(rep[0][i].search(" ") + 1, rep[0][i].length),
-            [rep[1][i].substring(0, rep[1][i].search(":"))]: rep[1][i].substring(rep[1][i].search(":") + 2, rep[1][i].length)
-        })*/
-        buttons.push({
-            "type": data.buttontype,
-            "title": data.buttontitle,
-            "url": data.buttonuse
-        });
+    if (data.buttontitle) {
+        for (let i = 0; i < rep[0].length; i++) {
+            /*        buttons.push({
+                        "type": rep[0][i].substring(0, rep[0][i].search(":")),
+                        "title": rep[0][i].substring(rep[0][i].search(" ") + 1, rep[0][i].length),
+                        [rep[1][i].substring(0, rep[1][i].search(":"))]: rep[1][i].substring(rep[1][i].search(":") + 2, rep[1][i].length)
+                    })*/
+            buttons.push({
+                "type": data.buttontype,
+                "title": data.buttontitle,
+                "url": data.buttonuse
+            });
+        }
     }
     if (data.favori)
         buttons.push({
@@ -104,7 +106,7 @@ function addButtons(rep, data) {
             "title": "Sauvegarder",
             "url": "http://isocele-edumiamserver-3.glitch.me/api/favoris/new?vid={{vid}}&push=" + data.favori
         });
-
+    console.log(buttons)
     return buttons;
 }
 
