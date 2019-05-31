@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const sheets = require('./spreadsheet.js');
+const notif = require('./notification.js');
 const hubspot = require('./hubspot.js');
 const favoris = require('./favoris.js');
 
@@ -20,7 +20,7 @@ app.use(express.static('public'));
 
 // Retourne un block affiché directement sur chatfuel
 app.get('/api/notif', (request, response) => {
-    sheets.spreadSheetRoute(request, response, requestOptions);
+    notif.spreadSheetRoute(request, response, requestOptions);
 })
 
 // Peut créer ou mettre à jour un profil sur Hubspot

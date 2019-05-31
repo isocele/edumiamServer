@@ -6,6 +6,7 @@ function createText(data) {
     var quick_replies = {};
     var buttons = {};
 
+    addTitle(data.title);
     if (data.quickreplies) {
         quick_replies = addQuickReplie(parseResponse(data.quickreplies, data.quickrepliesurl));
         replie.push({
@@ -13,7 +14,7 @@ function createText(data) {
             quick_replies
         });
     }
-    else if (data.buttontitle) {
+    else if (data.buttontitle || data.favori) {
         buttons = addButtons(parseResponse(data.buttontitle, data.buttonuse), data);
         replie.push({
                 "attachment": {
@@ -34,6 +35,10 @@ function createText(data) {
 }
 
 function createMedia(data) {
+    var subtitle = data.subtitle;
+
+    if (!subtitle)
+        subtitle = " ";
 
     replie.push({
         "attachment": {
@@ -44,7 +49,7 @@ function createMedia(data) {
                     {
                         "title": data.title,
                         "image_url": data.content,
-                        "subtitle": "empty subtitle",
+                        "subtitle": subtitle,
                     }
                 ]
             }
@@ -58,10 +63,10 @@ function createMedia(data) {
 
     if (data.buttontitle)  {
         var buttons = addButtons(parseResponse(data.buttontitle, data.buttonuse), data);
-        replie[1].attachment.payload.elements =   [{
+        replie[replie.length -1].attachment.payload.elements =   [{
             "title": data.title,
             "image_url": data.content,
-            "subtitle": "empty subtitle !!",
+            "subtitle": subtitle,
             buttons
         }]
     }
@@ -93,6 +98,13 @@ function addButtons(rep, data) {
             "url": data.buttonuse
         });
     }
+    if (data.favori)
+        buttons.push({
+            "type": "json_plugin_url",
+            "title": "Sauvegarder",
+            "url": "http://isocele-edumiamserver-3.glitch.me/api/favoris/new?vid={{vid}}&push=" + data.favori
+        });
+
     return buttons;
 }
 
@@ -128,7 +140,7 @@ function parseResponse(titles, urls) {
 module.exports = {
 
     createButtons(but) {
-        return addButtons(parseResponse(but.buttontitle, but.buttonuse))
+        return addButtons(parseResponse(but.buttontitle, but.buttonuse), but)
     },
 
     createReplie: function (data) {
@@ -136,7 +148,6 @@ module.exports = {
             delete replie[item];
         replie = [];
 
-        addTitle(data.title);
         if (data.maintype === "text")
             createText(data);
         else

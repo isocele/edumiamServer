@@ -2,7 +2,7 @@ const requestPromise = require('request-promise');
 const apikey = "2e27342c-a4bb-4b3c-a1fa-30f8b9b0f702";
 
 const parse = require('./parsingTools.js');
-const sheets = require('./spreadsheet');
+const sheets = require('./notification');
 const replie = require('./createReplie');
 
 var gallerie = {};
@@ -44,6 +44,7 @@ function createFavoris(req) {
 async function newFavoris(req) {
     const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile";
     var favoris = await hubspotApi(req, url, {}, 'GET');
+    //console.log(favoris);
 
     if (favoris === -1)
         return ("failure");
@@ -85,6 +86,7 @@ function initGallerie() {
 function addtoGallerie(block) {
     var buttons = [];
 
+    //console.log(block);
     if (block.buttontitle)
         buttons = replie.createButtons(block);
     gallerie.messages[0].attachment.payload.elements.push({
@@ -102,8 +104,8 @@ async function drawFavoris(req) {
     initGallerie();
     for (let i = 0; i < favoris.length; i++) {
         if (favoris[i].substring(0, favoris[i].search(':')) === "push") {
-            addtoGallerie(sheets.fetchData(parseInt(favoris[i].substring(favoris[i].search(":") + 2, favoris[i].length), 10)));
-
+            addtoGallerie(sheets.fetchData(parseInt(favoris[i].substring(favoris[i].search(":") + 2, favoris[i].length),
+                10), await sheets.getSheetsData("14KBR0jBKfHg7ZgmggKY8tEDClcN2BXcj4gF2mzvVjUM")));
         } else {
             console.log(favoris[i].substring(0, favoris[i].search(':')));
         }
