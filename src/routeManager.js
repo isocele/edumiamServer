@@ -5,6 +5,7 @@ const notif = require('./notification.js');
 const hubspot = require('./hubspot.js');
 const favoris = require('./favoris.js');
 const err = require('./errorHandle');
+const age = require('./age');
 
 const requestOptions = {
     uri: 'https://www.google.com/',
@@ -46,7 +47,7 @@ app.get('/api/notif', (request, response) => {
 // Créer ou maj le "mois" sur Chatfuel (nbr de mois de l'enfant)
 .get('/api/getmonth', (request, response) => {
     console.log("!-- Requéte pour obtenir le mois de l'enfant");
-    favoris.drawFavorisRoute(request, response, requestOptions);
+    age.returnMonth(request, response, requestOptions);
 });
 
 

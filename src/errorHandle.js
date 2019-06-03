@@ -14,7 +14,7 @@ module.exports = {
             response.json({
                 status: 402,
                 log: "Date of birth is invalid",
-                "message": [
+                "messages": [
                     {"text": "La date de naissance entré ne semble pas être valide"}
                 ]
             });
