@@ -4,6 +4,7 @@ const app = express();
 const notif = require('./notification.js');
 const hubspot = require('./hubspot.js');
 const favoris = require('./favoris.js');
+const err = require('./errorHandle');
 
 const requestOptions = {
     uri: 'https://www.google.com/',
@@ -14,13 +15,13 @@ const requestOptions = {
 };
 
 app.use(express.static('public'));
-
+err.initError(requestOptions);
 
 // Toute les routes pour les différentes requètes
 
 // Retourne un block affiché directement sur chatfuel
 app.get('/api/notif', (request, response) => {
-    console.log("!-- Requéte pour trouver la natification adéquate");
+    console.log("!-- Requéte pour trouver la notification adéquate");
     notif.spreadSheetRoute(request, response, requestOptions);
 })
 

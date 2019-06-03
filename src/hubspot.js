@@ -42,10 +42,34 @@ function createProperties(req) {
 
 module.exports = {
 
+    hubspotApi: async function (req, url, properties, method, response) {
+        var ret;
+
+        try {
+            // console.log(data)
+            ret = await requestPromise({
+                method: method,
+                url: url,
+                body: {
+                    properties: properties
+                },
+                qs: {
+                    hapikey: apikey
+                },
+                vid: req.query.vid,
+                json: true
+            });
+        } catch (err) {
+            error.requestError(response);
+            console.log(err.error);
+            return -1
+        }
+        return ret
+    },
+
     hubspotRoute: async function (request, response, requestOptions) {
         var url = '';
 
-        console.log(request.query.vid);
         if (request.query.email && !parse.isitMail(request.query.email))
                 return error.emailError(requestOptions, response);
         if (!request.query.vid)
@@ -55,20 +79,9 @@ module.exports = {
 
         try {
             createProperties(request);
-            console.log(properties);
-            const data = await requestPromise({
-                method: 'POST',
-                url: url,
-                body: {
-                    properties
-                },
-                qs: {
-                    hapikey: apikey
-                },
-                vid: request.query.vid,
-                json: true
-            });
-            if (!request.query.vid) {
+            var data = await this.hubspotApi(request, url, properties, 'POST', response);
+
+            if (!request.query.vid && data !== -1) {
                 response.json({
                     data: properties,
                     status: 200,
@@ -76,7 +89,7 @@ module.exports = {
                         "vid": "" + data.vid + ""
                     }
                 });
-            } else {
+            } else if (data !== -1) {
                 response.json({
                     data: properties,
                 });

@@ -4,35 +4,9 @@ const apikey = "2e27342c-a4bb-4b3c-a1fa-30f8b9b0f702";
 const parse = require('./parsingTools.js');
 const sheets = require('./notification');
 const replie = require('./createReplie');
+const hub = require('./hubspot');
 
 var gallerie = {};
-
-
-async function hubspotApi(req, url, properties, method) {
-    var ret;
-    console.log(properties);
-
-    try {
-        // console.log(data)
-        ret = await requestPromise({
-            method: method,
-            url: url,
-            body: {
-                properties: properties
-            },
-            qs: {
-                hapikey: apikey
-            },
-            vid: req.query.vid,
-            json: true
-        });
-    } catch (err) {
-        console.log(err);
-        console.log("^ Error ^");
-        return -1
-    }
-    return ret
-}
 
 function createFavoris(req) {
     if (req.query.push)
@@ -41,23 +15,23 @@ function createFavoris(req) {
         return ("block: " + req.query.block)
 }
 
-async function newFavoris(req) {
+async function newFavoris(req, res) {
     const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile";
-    var favoris = await hubspotApi(req, url, {}, 'GET');
+    var favoris = await hub.hubspotApi(req, url, {}, 'GET', res);
     //console.log(favoris);
 
     if (favoris === -1)
-        return ("failure");
+        return (-1);
     var fav = {};
     if (favoris.properties.favoris && favoris.properties.favoris.value)
         fav = favoris.properties.favoris.value + "\n" + createFavoris(req);
     else
         fav = createFavoris(req);
 
-    const ndata = hubspotApi(req, url, [{
+    const ndata = hub.hubspotApi(req, url, [{
         "property": "favoris",
         "value": fav
-    }], 'POST');
+    }], 'POST', res);
 
     return ({
         "success": 200,
@@ -96,18 +70,20 @@ function addtoGallerie(block) {
     });
 }
 
-async function drawFavoris(req) {
+async function drawFavoris(req, response) {
     const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile";
-    var info = await hubspotApi(req, url, {}, 'GET');
-    var favoris = parse.strToArray(info.properties.favoris.value);
+    var info = await hub.hubspotApi(req, url, {}, 'GET', response);
 
-    initGallerie();
-    for (let i = 0; i < favoris.length; i++) {
-        if (favoris[i].substring(0, favoris[i].search(':')) === "push") {
-            addtoGallerie(sheets.fetchData(parseInt(favoris[i].substring(favoris[i].search(":") + 2, favoris[i].length),
-                10), await sheets.getSheetsData("14KBR0jBKfHg7ZgmggKY8tEDClcN2BXcj4gF2mzvVjUM")));
-        } else {
-            console.log(favoris[i].substring(0, favoris[i].search(':')));
+    if (info !== -1) {
+        var favoris = parse.strToArray(info.properties.favoris.value);
+        initGallerie();
+        for (let i = 0; i < favoris.length; i++) {
+            if (favoris[i].substring(0, favoris[i].search(':')) === "push") {
+                addtoGallerie(sheets.fetchData(parseInt(favoris[i].substring(favoris[i].search(":") + 2, favoris[i].length),
+                    10), await sheets.getSheetsData("14KBR0jBKfHg7ZgmggKY8tEDClcN2BXcj4gF2mzvVjUM")));
+            } else {
+                console.log(favoris[i].substring(0, favoris[i].search(':')));
+            }
         }
     }
 }
@@ -115,15 +91,13 @@ async function drawFavoris(req) {
 module.exports = {
 
     addFavorisRoute: async function (req, response) {
-        const result = await newFavoris(req);
+        const result = await newFavoris(req, response);
 
-        response.json(result);
+        if (result !== -1)
+            response.json(result);
     },
 
     drawFavorisRoute: async function (req, response) {
-        const result = await drawFavoris(req);
-
-        response.json(
-            gallerie);
+        const result = await drawFavoris(req, response);
     }
 };

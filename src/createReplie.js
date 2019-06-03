@@ -1,4 +1,4 @@
-const parse = require('./parsingTools.js')
+const parse = require('./parsingTools.js');
 
 var replie = [];
 
@@ -106,7 +106,7 @@ function addButtons(rep, data) {
             "title": "Sauvegarder",
             "url": "http://isocele-edumiamserver-3.glitch.me/api/favoris/new?vid={{vid}}&push=" + data.favori
         });
-    console.log(buttons)
+    //console.log(buttons)
     return buttons;
 }
 
