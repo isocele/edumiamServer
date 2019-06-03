@@ -80,17 +80,17 @@ module.exports = {
         var ageDay = age.findAge(request.query.birth);
 
         if (ageDay === -1)
-            err.ageError(requestOptions, response);
+            err.ageError(response);
         else {
             let allData = await this.getSheetsData('1K2kx6gJ5Ygmy4Jyp8XO7HMXWfN34Psf2ibKsu0EhQaQ');
             let pertinentData = this.fetchData(ageDay, allData);
             if (pertinentData === -1)
-                err.dayError(requestOptions, response);
+                err.dayError(response);
             else if (pertinentData.state && pertinentData.state !== " ") {
                 console.log('ok');
                 createResponse(pertinentData, requestOptions, response);
             } else
-                err.dayError(requestOptions, response);
+                err.dayError(response);
         }
     }
 };

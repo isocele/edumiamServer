@@ -13,7 +13,10 @@ module.exports = {
         .then(function() {
             response.json({
                 status: 402,
-                log: "Date of birth is invalid"
+                log: "Date of birth is invalid",
+                "message": [
+                    {"text": "La date de naissance entré ne semble pas être valide"}
+                ]
             });
         });
     },
@@ -26,7 +29,6 @@ module.exports = {
                     status: 405,
                     log: "No data for this peticular day"
                 })
-
             });
     },
 

@@ -16,6 +16,12 @@ function createProperties(req) {
     properties = [];
 
     for (let item in req.query) {
+        if (item === "babybirth")
+            if (!parse.isitDate(req.query[item]))
+            {
+                console.log("oui c 1 erreur");
+                return false
+            }
         if (item !== "vid" && item !== "Country" && item !== "Source") {
             properties.push({
                 "property": item,
@@ -36,7 +42,8 @@ function createProperties(req) {
     properties.push({
         "property": "Type",
         "value": "Chatbot user"
-    })
+    });
+    return true
 }
 
 
@@ -71,17 +78,19 @@ module.exports = {
         var url = '';
 
         if (request.query.email && !parse.isitMail(request.query.email))
-                return error.emailError(requestOptions, response);
+                return error.emailError(response);
         if (!request.query.vid)
             url = 'https://api.hubapi.com/' + endpoint;
         else
             url = 'https://api.hubapi.com/' + endpoint + "/vid/" + request.query.vid + "/profile";
 
         try {
-            createProperties(request);
-            var data = await this.hubspotApi(request, url, properties, 'POST', response);
-
-            if (!request.query.vid && data !== -1) {
+            var valid = createProperties(request);
+            if (valid)
+                var data = await this.hubspotApi(request, url, properties, 'POST', response);
+            else
+                error.ageError(response);
+            if (valid && !request.query.vid && data !== -1) {
                 response.json({
                     data: properties,
                     status: 200,
@@ -89,14 +98,14 @@ module.exports = {
                         "vid": "" + data.vid + ""
                     }
                 });
-            } else if (data !== -1) {
+            } else if (valid && data !== -1) {
                 response.json({
                     data: properties,
                 });
             }
         } catch
             (err) {
-            error.requestError(requestOptions, response);
+            error.requestError(response);
             console.log(err);
             console.log("^ Error ^");
         }

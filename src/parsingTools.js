@@ -10,6 +10,13 @@ module.exports = {
         return false
     },
 
+    isitDate: function (birth) {
+        // filtre les formats de date + les dates invalides
+        return birth[0] >= 0 && birth[1] >= 1 && birth[2] === '.' &&
+            birth[3] >= 0 && birth[4] >= 1 && birth[5] === '.' &&
+            birth[6] == 2 && birth[7] == 0 && birth[8] >= 1 && birth[9] >= 0;
+    },
+
     countLine: function (str) {
         var ret = 1;
         for (let i = 0; i < str.length; i++)
@@ -18,7 +25,6 @@ module.exports = {
 
         return (ret);
     },
-
 
     strToArray: function (str) {
         var ret = [];

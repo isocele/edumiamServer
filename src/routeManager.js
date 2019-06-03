@@ -41,6 +41,12 @@ app.get('/api/notif', (request, response) => {
 .get('/api/favoris/draw', (request, response) => {
     console.log("!-- Requéte pour affciher les favoris");
     favoris.drawFavorisRoute(request, response, requestOptions);
+})
+
+// Créer ou maj le "mois" sur Chatfuel (nbr de mois de l'enfant)
+.get('/api/getmonth', (request, response) => {
+    console.log("!-- Requéte pour obtenir le mois de l'enfant");
+    favoris.drawFavorisRoute(request, response, requestOptions);
 });
 
 
