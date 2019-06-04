@@ -132,7 +132,6 @@ function addTitle(title) {
 function parseResponse(titles, urls) {
     var lines = parse.countLine(titles);
 
-    console.log(urls);
     if (lines !== parse.countLine(urls)) {
         console.log("il n'y a pas le meme nombre de buttons / url")
     }

@@ -39,8 +39,10 @@ module.exports = {
 
     // Trouve la colonne du tableau correspondant avec l'id (jour cummulé ou id favoris)
     fetchData: function (id, data) {
+        console.log(id);
         for (let i = 0; i < data.length; i++) {
-            if (parseInt(data[i].id, 10) === id) {
+            // if (parseInt(data[i].id, 10) === id) {
+            if (data[i].id === id) {
                 return (data[i])
             }
         }
@@ -70,15 +72,14 @@ module.exports = {
             await delay.reject(2000, {value: new Error(data)});
         } catch (error) {
             // Attends 2 secondes
-            //console.log(error);
             return (data)
         }
-
     },
 
     spreadSheetRoute: async function (request, response, requestOptions) {
-        var ageDay = age.findAge(request.query.birth);
+        //var ageDay = age.findAge(request.query.babybirth);
 
+        var ageDay = request.query.babybirth;
         if (ageDay === -1)
             err.ageError(response);
         else {
