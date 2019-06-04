@@ -15,11 +15,6 @@ function createResponse(pertinentData, requestOptions, response) {
     if (!pertinentData.blockname || pertinentData.blockname === " ") {
         let replies = rep.createReplie(pertinentData);
         jsondata = {
-            data: pertinentData,
-            set_attributes: {
-                titre: pertinentData.title,
-                notification: pertinentData.content
-            },
             "messages":
             replies
         };
@@ -39,9 +34,9 @@ module.exports = {
 
     // Trouve la colonne du tableau correspondant avec l'id (jour cummulé ou id favoris)
     fetchData: function (id, data) {
-        console.log(id);
         for (let i = 0; i < data.length; i++) {
             // if (parseInt(data[i].id, 10) === id) {
+                //TODO si on repasse en format date changer les format de variable
             if (data[i].id === id) {
                 return (data[i])
             }
@@ -54,7 +49,7 @@ module.exports = {
         return (-1);
     },
 
-    getSheetsData: async function (url) {
+    getSheets: async function (url) {
         // Ouvre ou créer un document GoogleSheets selon l'url
         const doc = new GoogleSpreadsheet(url);
         let data = [];
@@ -83,14 +78,13 @@ module.exports = {
         if (ageDay === -1)
             err.ageError(response);
         else {
-            let allData = await this.getSheetsData('1K2kx6gJ5Ygmy4Jyp8XO7HMXWfN34Psf2ibKsu0EhQaQ');
+            let allData = await this.getSheets('1K2kx6gJ5Ygmy4Jyp8XO7HMXWfN34Psf2ibKsu0EhQaQ');
             let pertinentData = this.fetchData(ageDay, allData);
             if (pertinentData === -1)
                 err.dayError(response);
-            else if (pertinentData.state && pertinentData.state !== " ") {
-                console.log('ok');
+            else if (pertinentData.state && pertinentData.state !== " ")
                 createResponse(pertinentData, requestOptions, response);
-            } else
+            else
                 err.dayError(response);
         }
     }

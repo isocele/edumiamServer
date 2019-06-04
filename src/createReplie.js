@@ -39,7 +39,7 @@ function createMedia(data) {
 
     if (!subtitle)
         subtitle = " ";
-
+    console.log("oui c pas bon");
     replie.push({
         "attachment": {
             "type": "template",
@@ -132,9 +132,8 @@ function addTitle(title) {
 function parseResponse(titles, urls) {
     var lines = parse.countLine(titles);
 
-    if (lines !== parse.countLine(urls)) {
+    if (lines !== parse.countLine(urls))
         console.log("il n'y a pas le meme nombre de buttons / url")
-    }
     return ([parse.strToArray(titles), parse.strToArray(urls)]);
 }
 
@@ -149,6 +148,7 @@ module.exports = {
             delete replie[item];
         replie = [];
 
+        console.log(data.maintype);
         if (data.maintype === "text")
             createText(data);
         else

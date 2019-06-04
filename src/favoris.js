@@ -61,6 +61,7 @@ function addtoGallerie(block) {
     var buttons = [];
 
     //console.log(block);
+    console.log(block.title)
     if (block.buttontitle)
         buttons = replie.createButtons(block);
     gallerie.messages[0].attachment.payload.elements.push({
@@ -79,13 +80,18 @@ async function drawFavoris(req, response) {
         initGallerie();
         for (let i = 0; i < favoris.length; i++) {
             if (favoris[i].substring(0, favoris[i].search(':')) === "push") {
-                addtoGallerie(sheets.fetchData(parseInt(favoris[i].substring(favoris[i].search(":") + 2, favoris[i].length),
-                    10), await sheets.getSheetsData("14KBR0jBKfHg7ZgmggKY8tEDClcN2BXcj4gF2mzvVjUM")));
+                var alldata = await sheets.getSheets("14KBR0jBKfHg7ZgmggKY8tEDClcN2BXcj4gF2mzvVjUM");
+                // addtoGallerie(sheets.fetchData(parseInt(favoris[i].substring(favoris[i].search(":") + 2, favoris[i].length),
+                //     10), alldata));
+                // TODO changer ^
+                addtoGallerie(sheets.fetchData(favoris[i].substring(favoris[i].search(":") + 2, favoris[i].length), alldata));
             } else {
+                console.log("erreur : Mauvais format ?");
                 console.log(favoris[i].substring(0, favoris[i].search(':')));
             }
         }
     }
+    return 0
 }
 
 module.exports = {
@@ -99,5 +105,8 @@ module.exports = {
 
     drawFavorisRoute: async function (req, response) {
         const result = await drawFavoris(req, response);
+
+        if (result !== -1)
+            response.json(gallerie);
     }
 };
