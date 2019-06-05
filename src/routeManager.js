@@ -27,35 +27,40 @@ app.get('/api/notif', (request, response) => {
 })
 
 // Peut créer ou mettre à jour un profil sur Hubspot
-.get('/api/user', (request, response) => {
-    console.log("!-- Requéte pour mettre à jour l'utilisateur");
-    hubspot.hubspotRoute(request, response, requestOptions);
-})
+    .get('/api/user', (request, response) => {
+        console.log("!-- Requéte pour mettre à jour l'utilisateur");
+        hubspot.hubspotRoute(request, response, requestOptions);
+    })
 
-// Peut ajouter un favoris dans la DB Hubspot
-.get('/api/favoris/new', (request, response) => {
-    console.log("!-- Requéte pour ajouter un favoris");
-    favoris.addFavorisRoute(request, response, requestOptions);
-})
+    // Peut ajouter un favoris dans la DB Hubspot
+    .get('/api/favoris/new', (request, response) => {
+        console.log("!-- Requéte pour ajouter un favoris");
+        favoris.addFavorisRoute(request, response, requestOptions);
+    })
 
-// Affiche les favoris présent sur Hubspot directement sur Chatfuel
-.get('/api/favoris/draw', (request, response) => {
-    console.log("!-- Requéte pour affciher les favoris");
-    favoris.drawFavorisRoute(request, response, requestOptions);
-})
+    // Affiche les favoris présent sur Hubspot directement sur Chatfuel
+    .get('/api/favoris/draw', (request, response) => {
+        console.log("!-- Requéte pour affciher les favoris");
+        favoris.drawFavorisRoute(request, response, requestOptions);
+    })
 
-// Créer ou maj le "mois" sur Chatfuel (nbr de mois de l'enfant)
-.get('/api/getmonth', (request, response) => {
-    console.log("!-- Requéte pour obtenir le mois de l'enfant");
-    age.returnMonth(request, response, requestOptions);
-});
+    .get('/api/favoris/delete', (request, response) => {
+        console.log("!-- Requéte pour supprimer un favoris");
+        favoris.deleteFavorisRoute(request, response, requestOptions);
+    })
+
+    // Créer ou maj le "mois" sur Chatfuel (nbr de mois de l'enfant)
+    .get('/api/getmonth', (request, response) => {
+        console.log("!-- Requéte pour obtenir le mois de l'enfant");
+        age.returnMonth(request, response, requestOptions);
+    });
 
 
 const PORT = 8080;
 
 // ... Tout le code de gestion des routes (app.get) se trouve au-dessus
 
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
     res.setHeader('Content-Type', 'text/plain');
     res.status(404).send('Page introuvable !');
 });

@@ -13,21 +13,19 @@ function createText(data) {
             "text": data.content,
             quick_replies
         });
-    }
-    else if (data.buttontitle || data.favori) {
-        buttons = addButtons(parseResponse(data.buttontitle, data.buttonuse), data);
+    } else if (data.buttontitle || data.favori) {
+        buttons = addButtons(parseResponse(data.buttontitle, data.buttontype, data.buttonuse), data);
         replie.push({
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "button",
-                        "text": data.content,
-                        buttons
-                    }
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "button",
+                    "text": data.content,
+                    buttons
                 }
+            }
         });
-    }
-    else {
+    } else {
         replie.push({
             "text": data.content
         });
@@ -39,7 +37,6 @@ function createMedia(data) {
 
     if (!subtitle)
         subtitle = " ";
-    console.log("oui c pas bon");
     replie.push({
         "attachment": {
             "type": "template",
@@ -58,12 +55,12 @@ function createMedia(data) {
 
     if (data.quickreplies) {
         var quick_replies = addQuickReplie(parseResponse(data.quickreplies, data.quickrepliesurl));
-        replie[replie.length -1].quick_replies = quick_replies;
+        replie[replie.length - 1].quick_replies = quick_replies;
     }
 
-    if (data.buttontitle || data.favori)  {
+    if (data.buttontitle || data.favori) {
         var buttons = addButtons(parseResponse(data.buttontitle, data.buttonuse), data);
-        replie[replie.length -1].attachment.payload.elements =   [{
+        replie[replie.length - 1].attachment.payload.elements = [{
             "title": data.title,
             "image_url": data.content,
             "subtitle": subtitle,
@@ -76,28 +73,29 @@ function addQuickReplie(rep) {
     var quick_replies = [];
 
     for (let i = 0; i < rep[0].length; i++) {
-            quick_replies.push({
-                "title": rep[0][i],
-                "block_names": [rep[1][i].substring(6)],
-            })
+        quick_replies.push({
+            "title": rep[0][i],
+            "block_names": [rep[1][i].substring(6)],
+        })
     }
     return quick_replies;
 }
 
 function addButtons(rep, data) {
     var buttons = [];
+
     if (data.buttontitle) {
         for (let i = 0; i < rep[0].length; i++) {
-            /*        buttons.push({
-                        "type": rep[0][i].substring(0, rep[0][i].search(":")),
-                        "title": rep[0][i].substring(rep[0][i].search(" ") + 1, rep[0][i].length),
-                        [rep[1][i].substring(0, rep[1][i].search(":"))]: rep[1][i].substring(rep[1][i].search(":") + 2, rep[1][i].length)
-                    })*/
             buttons.push({
-                "type": data.buttontype,
-                "title": data.buttontitle,
-                "url": data.buttonuse
-            });
+                "type": rep[1][i],
+                "title": rep[0][i],
+                "url": rep[2][i]
+            })
+            /*            buttons.push({
+                            "type": data.buttontype,
+                            "title": data.buttontitle,
+                            "url": data.buttonuse
+                        });*/
         }
     }
     if (data.favori)
@@ -129,18 +127,18 @@ function addTitle(title) {
     }
 }*/
 
-function parseResponse(titles, urls) {
+function parseResponse(titles, types, urls) {
     var lines = parse.countLine(titles);
 
     if (lines !== parse.countLine(urls))
         console.log("il n'y a pas le meme nombre de buttons / url")
-    return ([parse.strToArray(titles), parse.strToArray(urls)]);
+    return ([parse.strToArray(titles), parse.strToArray(types), parse.strToArray(urls)]);
 }
 
 module.exports = {
 
     createButtons(but) {
-        return addButtons(parseResponse(but.buttontitle, but.buttonuse), but)
+        return addButtons(parseResponse(but.buttontitle, but.buttontype, but.buttonuse), but)
     },
 
     createReplie: function (data) {

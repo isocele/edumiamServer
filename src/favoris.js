@@ -26,6 +26,18 @@ function checkdouble(fav, add) {
     return true
 }
 
+function deleteFavoris(fav, del) {
+    var arrfav = parse.strToArray(fav);
+    var newfav = "";
+
+    for (let i = 0; i < arrfav.length; i++) {
+        if (arrfav[i].substring(arrfav[i].search(':') + 2, arrfav[i].length) !== del)
+            newfav += arrfav[i].toString() + '\n';
+    }
+
+    return (newfav.substring(0, newfav.length - 1));
+}
+
 async function newFavoris(req, res) {
     const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile";
     var favoris = await hub.hubspotApi(req, url, {}, 'GET', res);
@@ -45,8 +57,6 @@ async function newFavoris(req, res) {
         else
             fav = favoris.properties.favoris.value + "\n" + createFavoris(req);
     }
-
-
     else
         fav = createFavoris(req);
 
@@ -83,7 +93,6 @@ function addtoGallerie(block) {
     var buttons = [];
 
     //console.log(block);
-    console.log(block.title)
     if (block.buttontitle)
         buttons = replie.createButtons(block);
     gallerie.messages[0].attachment.payload.elements.push({
@@ -116,6 +125,39 @@ async function drawFavoris(req, response) {
     return 0
 }
 
+async function checkDelete(req, res) {
+    const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile";
+    var info = await hub.hubspotApi(req, url, {}, 'GET', res);
+    var message = "";
+    var status = 0;
+
+    if (info !== -1) {
+        if (info.properties.favoris && info.properties.favoris.value) {
+            if (checkdouble(info.properties.favoris.value, req.query.push)) {
+                status = 406;
+                message = "Vous n'avez pas enregistré ce favoris";
+            } else {
+                var favoris = deleteFavoris(info.properties.favoris.value, req.query.push, req, res);
+                const ndata = hub.hubspotApi(req, url, [{
+                    "property": "favoris",
+                    "value": favoris
+                }], 'POST', res);
+                status = 406;
+                message = "Favoris supprimés";
+            }
+        } else {
+            status = 406;
+            message = "Vous n'avez pas de favoris enregistré";
+        }
+    }
+    return ({
+        "success": status,
+        "messages": [
+            {"text": message},
+        ]
+    });
+}
+
 module.exports = {
 
     addFavorisRoute: async function (req, response) {
@@ -130,5 +172,11 @@ module.exports = {
 
         if (result !== -1)
             response.json(gallerie);
+    },
+
+    deleteFavorisRoute: async function (req, res) {
+        const result = await checkDelete(req, res);
+
+        res.json(result);
     }
 };
