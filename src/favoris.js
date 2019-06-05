@@ -15,6 +15,17 @@ function createFavoris(req) {
         return ("block: " + req.query.block)
 }
 
+function checkdouble(fav, add) {
+    var arrfav = parse.strToArray(fav);
+
+    for (let i = 0; i < arrfav.length; i++) {
+        if (arrfav[i].substring(arrfav[i].search(':') + 2, arrfav[i].length) === add) {
+            return false
+        }
+    }
+    return true
+}
+
 async function newFavoris(req, res) {
     const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile";
     var favoris = await hub.hubspotApi(req, url, {}, 'GET', res);
@@ -23,8 +34,19 @@ async function newFavoris(req, res) {
     if (favoris === -1)
         return (-1);
     var fav = {};
-    if (favoris.properties.favoris && favoris.properties.favoris.value)
-        fav = favoris.properties.favoris.value + "\n" + createFavoris(req);
+    if (favoris.properties.favoris && favoris.properties.favoris.value) {
+        if (!checkdouble(favoris.properties.favoris.value, req.query.push))
+            return ({
+                "success": 406,
+                "messages": [
+                    {"text": "Vous avez déjà enregistré ce favoris"},
+                ]
+            });
+        else
+            fav = favoris.properties.favoris.value + "\n" + createFavoris(req);
+    }
+
+
     else
         fav = createFavoris(req);
 
@@ -36,7 +58,7 @@ async function newFavoris(req, res) {
     return ({
         "success": 200,
         "messages": [
-            {"text": "Vous avez ajoutez un nouveau favori !"},
+            {"text": "Vous avez ajouté un nouveau favori !"},
         ]
     });
 }
