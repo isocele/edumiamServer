@@ -2,9 +2,11 @@ module.exports = {
 
     findAge: function (birth) {
         // filtre les formats de date + les dates invalides
-        if (birth[0] >= 0 && birth[1] >= 1 && birth[2] === '.' &&
-            birth[3] >= 0 && birth[4] >= 1 && birth[5] === '.' &&
-            birth[6] == 2 && birth[7] == 0 && birth[8] >= 1 && birth[9] >= 0) {
+        console.log(birth);
+        if (birth[0] >= 0 && birth[1] >= 0 && birth[2] === '.' &&
+            birth[3] >= 0 && birth[4] >= 0 && birth[5] === '.' &&
+            birth[6] == 2 && birth[7] == 0 && birth[8] >= 1 && birth[9] >= 0 &&
+            (birth[0] >= 1 || birth[1] >= 1) && (birth[3] >= 1 || birth[4] >= 1)) {
             // Sépare la chaine de caratère de la date de naissance sous différentes variables
             var day = birth[0] + birth[1];
             var month = birth[3] + birth[4];

@@ -18,7 +18,7 @@ module.exports = {
                     "validbirthdate": false
                 },
                 "messages": [
-                    {"text": "La date de naissance entré ne semble pas être valide"}
+                    {"text": "Je suis désolé mais la date de naissance entrée ne semble pas être valide"}
                 ]
             });
         });
