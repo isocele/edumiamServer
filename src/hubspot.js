@@ -18,10 +18,7 @@ function createProperties(req) {
     for (let item in req.query) {
         if (item === "babybirth")
             if (!parse.isitDate(req.query[item]))
-            {
-                console.log("oui c 1 erreur");
-                return false
-            }
+                return false;
         if (item !== "vid" && item !== "Country" && item !== "Source") {
             properties.push({
                 "property": item,
