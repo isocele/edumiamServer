@@ -1,10 +1,11 @@
 module.exports = {
 
     findAge: function (birth) {
-        // filtre les formats de date + les dates invalides
+        // filtre les formats de date + les dates invalides (c'est brouillon... refaire en int ?)
         console.log(birth);
-        if (birth[0] >= 0 && birth[1] >= 0 && birth[2] === '.' &&
-            birth[3] >= 0 && birth[4] >= 0 && birth[5] === '.' &&
+        if (((birth[0] >= 0 && birth[0] < 3) || (birth[0] == 3 && (birth[1] == 0 || birth[1] == 1))) &&
+            birth[1] >= 0 && birth[2] === '.' &&
+            (birth[3] == 0 || (birth[3] == 1 && birth[4] <= 2)) && birth[4] >= 0 && birth[5] === '.' &&
             birth[6] == 2 && birth[7] == 0 && birth[8] >= 1 && birth[9] >= 0 &&
             (birth[0] >= 1 || birth[1] >= 1) && (birth[3] >= 1 || birth[4] >= 1)) {
             // Sépare la chaine de caratère de la date de naissance sous différentes variables
@@ -20,15 +21,29 @@ module.exports = {
             var ageDay = (date.getUTCFullYear() - year) * 365 + ((-parseInt(month, 10) + date.getUTCMonth() + 1) * 30.5) + (date.getUTCDate() - day)
             return (parseInt(ageDay, 10) + 1)
         }
-        return -1;
+        return "error";
     },
 
     returnMonth: function (req, response) {
         var ageDays = this.findAge(req.query.babybirth);
         var ageMonth = parseInt(ageDays / 30.5, 10);
+        // Cas de futur accouchement !
+        if (ageDays < 0) {
+            var time = (-ageMonth) + " mois";
+            if (ageMonth >= -2)
+                time = parseInt(ageDays / -7, 10) + " semaine(s)";
+            response.json({
+                status: 201,
+                "set_attributes": {
+                    "enceinte": true,
+                    "timebeforebirth": time
+                }
+            });
+        } else
         response.json({
             status: 200,
             "set_attributes": {
+                "enceinte": false,
                 "babyMonth": ageMonth
             }
         });

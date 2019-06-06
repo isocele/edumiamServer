@@ -2,6 +2,7 @@ const requestPromise = require('request-promise');
 const json = require('../assets/countrydata.json'); //(with path)
 const parse = require('./parsingTools.js');
 const error = require('./errorHandle.js');
+const age = require('./age.js');
 
 //http://isocele-edumiamserver-3.glitch.me/api/user?lastname={{last name}}&firstname={{first name}}&email={{email}}&vid={{vid}}&Country={{locale}}&Gender={{gender}}&Chatfuel_user_id={{chatfuel user id}}&Chatbot_subscription={{abonné}}&City={{city}}&Postal_code={{zip}}&Street_address={{address}}
 
@@ -17,7 +18,7 @@ function createProperties(req) {
 
     for (let item in req.query) {
         if (item === "babybirth")
-            if (!parse.isitDate(req.query[item]))
+            if (age.findAge(req.query[item]) === "error")
                 return false;
         if (item !== "vid" && item !== "Country" && item !== "Source") {
             properties.push({
