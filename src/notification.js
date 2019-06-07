@@ -40,6 +40,7 @@ function nextNotif(day, data) {
 
     for (; data[i].id !== day; i++);
     i++;
+    for (; !data[i].state || data[i].state === " "; i++);
     return data[i].id;
 }
 
