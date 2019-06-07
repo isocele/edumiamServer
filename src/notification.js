@@ -9,14 +9,14 @@ const rep = require('./createReplie.js');
 
 
 // Affiche un block personnalisé ou un block existant dans Chatfuel
-function createResponse(pertinentData, requestOptions, response) {
+function createResponse(pertinentData, requestOptions, response, next) {
 
     var jsondata;
     if (!pertinentData.blockname || pertinentData.blockname === " ") {
         let replies = rep.createReplie(pertinentData);
         jsondata = {
             "set_attributes": {
-              "new": true
+              "next": next
             },
             "messages":
             replies
@@ -24,7 +24,7 @@ function createResponse(pertinentData, requestOptions, response) {
     } else {
         jsondata = {
             "set_attributes": {
-                "new": true
+                "next": next
             },
             "redirect_to_blocks": [pertinentData.blockname]
         };
@@ -33,6 +33,14 @@ function createResponse(pertinentData, requestOptions, response) {
         .then(function () {
             response.json(jsondata);
         });
+}
+
+function nextNotif(day, data) {
+    var i = 0;
+
+    for (; data[i].id !== day; i++);
+    i++;
+    return data[i].id;
 }
 
 module.exports = {
@@ -88,7 +96,7 @@ module.exports = {
             if (pertinentData === -1)
                 err.dayError(response);
             else if (pertinentData.state && pertinentData.state !== " ")
-                createResponse(pertinentData, requestOptions, response);
+                createResponse(pertinentData, requestOptions, response, nextNotif(ageDay, allData));
             else
                 err.dayError(response);
         }
