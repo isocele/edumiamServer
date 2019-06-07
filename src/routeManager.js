@@ -1,11 +1,12 @@
 const express = require('express');
 const app = express();
 
-const notif = require('./notification.js');
-const hubspot = require('./hubspot.js');
-const favoris = require('./favoris.js');
+const notif = require('./notification');
+const hubspot = require('./hubspot');
+const favoris = require('./favoris');
 const err = require('./errorHandle');
 const age = require('./age');
+const scrap = require('./scrapFile');
 
 const requestOptions = {
     uri: 'https://www.google.com/',
@@ -53,8 +54,12 @@ app.get('/api/notif', (request, response) => {
     .get('/api/getmonth', (request, response) => {
         console.log("!-- Requéte pour obtenir le mois de l'enfant");
         age.returnMonth(request, response, requestOptions);
-    });
+    })
 
+    .get('/scrap', (request, response) => {
+       console.log("!-- Requéte pour réécrire un fichier sur un sheets");
+        scrap.scrapfileRoute();
+    });
 
 const PORT = 8080;
 

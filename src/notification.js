@@ -15,12 +15,17 @@ function createResponse(pertinentData, requestOptions, response) {
     if (!pertinentData.blockname || pertinentData.blockname === " ") {
         let replies = rep.createReplie(pertinentData);
         jsondata = {
+            "set_attributes": {
+              "new": true
+            },
             "messages":
             replies
         };
     } else {
         jsondata = {
-            data: pertinentData,
+            "set_attributes": {
+                "new": true
+            },
             "redirect_to_blocks": [pertinentData.blockname]
         };
     }
