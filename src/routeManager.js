@@ -58,7 +58,7 @@ app.get('/api/notif', (request, response) => {
 
     .get('/scrap', (request, response) => {
        console.log("!-- Requéte pour réécrire un fichier sur un sheets");
-        scrap.scrapfileRoute();
+        scrap.scrapfileRoute(response, requestOptions);
     });
 
 const PORT = 8080;
