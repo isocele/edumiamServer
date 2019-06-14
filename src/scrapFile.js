@@ -9,10 +9,6 @@ async function writeSheet(requestOptions) {
 }
 
 function parseData(contents) {
-    /*for (let i = 0; i < contents.length ; i++) {
-        console.log(contents[i])
-    }*/
-
     var ret = [];
     var jbis = 0;
     var tmp = 0;
@@ -32,7 +28,6 @@ function parseData(contents) {
         ret.push(contents.substring(tmp, jbis -2));
     }
     for (let i = 0; i < ret.length; i++) {
-
         console.log(JSON.stringify(ret[i]), ",");
     }
     return(ret)
@@ -54,19 +49,22 @@ function parseNumber(contents) {
 
 module.exports = {
 
-    scrapfileRoute: function (response, requestOptions) {
+    scrapfileRoute: function (response) {
+        let path = './assets/chatbot_conv';
 
-        fs.readFile('./assets/chatbot_conv', 'utf8', function (err, contents) {
+        fs.readFile(path, 'utf8', function (err, contents) {
             if (contents) {
-                //console.log(contents);
-                parseNumber(contents);
-                //writeSheet(requestOptions);
-            }
-
-            else if (err)
+                parseData(contents);
+                response.json({
+                    status: 200,
+                });
+            } else if (err) {
+                response.json({
+                    status: 401,
+                    log: "Fichier " + path + " manquant"
+                });
                 console.log(err);
+            }
         });
-        console.log('after calling readFile');
     }
-
 };

@@ -5,6 +5,8 @@ const parse = require('./parsingTools.js');
 const sheets = require('./notification');
 const replie = require('./createReplie');
 const hub = require('./hubspot');
+const error = require('./errorHandle');
+
 
 var gallerie = {};
 
@@ -56,8 +58,7 @@ async function newFavoris(req, res) {
             });
         else
             fav = favoris.properties.favoris.value + "\n" + createFavoris(req);
-    }
-    else
+    } else
         fav = createFavoris(req);
 
     const ndata = hub.hubspotApi(req, url, [{
@@ -106,7 +107,7 @@ async function drawFavoris(req, response) {
     const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile";
     var info = await hub.hubspotApi(req, url, {}, 'GET', response);
 
-    if (info !== -1) {
+    if (info !== -1 && info.properties.favoris) {
         var favoris = parse.strToArray(info.properties.favoris.value);
         initGallerie();
         for (let i = 0; i < favoris.length; i++) {
@@ -121,8 +122,10 @@ async function drawFavoris(req, response) {
                 console.log(favoris[i].substring(0, favoris[i].search(':')));
             }
         }
+        return 0
     }
-    return 0
+    error.favorisError(response);
+    return -1
 }
 
 async function checkDelete(req, res) {
