@@ -57,5 +57,19 @@ module.exports = {
                 })
 
             });
+    },
+
+    favorisError: function(response) {
+        console.log("407: Aucun Favoris");
+        requestPromise(requestOptions)
+            .then(function() {
+                response.json({
+                    status: 407,
+                    log: "Aucun favoris",
+                    "messages": [
+                        {"text": "Tu n'as pas encore de Favori ! Pour en ajouter appuis sur les boutons Favoris présents sur certaines fiches."}
+                    ]
+                });
+            });
     }
 };
