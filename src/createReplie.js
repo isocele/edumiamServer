@@ -112,21 +112,6 @@ function addTitle(title) {
     replie.push({"text": title});
 }
 
-/*function parseButton(data) {
-    var lines = parse.countLine(data.buttons);
-
-    if (lines !== parse.countLine(data.buttonsurl)) {
-        console.log("il n'y a pas le meme nombre de buttons / url")
-    }
-    else {
-        var title = parse.strToArray(data.buttons, lines);
-        var urls = parse.strToArray(data.buttonsurl, lines);
-    }
-    for (let i = 0; i < lines; i++) {
-        addButton(title[i], urls[i]);
-    }
-}*/
-
 function parseResponse(titles, types, urls) {
     var lines = parse.countLine(titles);
 
@@ -146,7 +131,7 @@ module.exports = {
             delete replie[item];
         replie = [];
 
-        console.log(data.maintype);
+        // console.log(data.maintype);
         if (data.maintype === "text")
             createText(data);
         else

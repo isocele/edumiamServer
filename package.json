@@ -8,13 +8,15 @@
     "express": "^4.16.4",
     "google-spreadsheet": "^2.0.7",
     "googleapis": "^39.2.0",
+    "nodemon": "^1.19.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./src/routeManager.js"
+    "start": "nodemon -L ./src/routeManager.js",
+    "start watch": "nodemon --watch src/ --exec 'node ./src/routeManager.js' -r ts"
   },
   "author": "",
   "license": "ISC"

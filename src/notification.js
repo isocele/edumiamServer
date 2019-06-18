@@ -9,23 +9,17 @@ const rep = require('./createReplie.js');
 
 
 // Affiche un block personnalisé ou un block existant dans Chatfuel
-function createResponse(pertinentData, requestOptions, response, next) {
+function createResponse(pertinentData, requestOptions, response) {
 
     var jsondata;
     if (!pertinentData.blockname || pertinentData.blockname === " ") {
         let replies = rep.createReplie(pertinentData);
         jsondata = {
-            "set_attributes": {
-              "next": next
-            },
             "messages":
             replies
         };
     } else {
         jsondata = {
-            "set_attributes": {
-                "next": next
-            },
             "redirect_to_blocks": [pertinentData.blockname]
         };
     }
@@ -49,9 +43,9 @@ module.exports = {
     // Trouve la colonne du tableau correspondant avec l'id (jour cummulé ou id favoris)
     fetchData: function (id, data) {
         for (let i = 0; i < data.length; i++) {
-            // if (parseInt(data[i].id, 10) === id) {
+            if (parseInt(data[i].id, 10) === id) {
                 //TODO si on repasse en format date changer les format de variable
-            if (data[i].id === id) {
+            //if (data[i].id === id) {
                 return (data[i])
             }
         }
@@ -86,20 +80,20 @@ module.exports = {
     },
 
     spreadSheetRoute: async function (request, response, requestOptions) {
-        //var ageDay = age.findAge(request.query.babybirth);
+        var ageDay = age.findAge(request.query.babybirth);
 
-        var ageDay = request.query.babybirth;
+        // var ageDay = request.query.babybirth;
         if (ageDay === -1)
             err.ageError(response);
         else {
-            let allData = await this.getSheets('1K2kx6gJ5Ygmy4Jyp8XO7HMXWfN34Psf2ibKsu0EhQaQ');
+            let allData = await this.getSheets('1UKv3jbA6reYFcbDoAPOj6SbdYLINQVNL8arUHXnRR0U');
             let pertinentData = this.fetchData(ageDay, allData);
             if (pertinentData === -1)
-                err.dayError(response);
+                err.dayError(response, ageDay);
             else if (pertinentData.state && pertinentData.state !== " ")
-                createResponse(pertinentData, requestOptions, response, nextNotif(ageDay, allData));
+                createResponse(pertinentData, requestOptions, response);
             else
-                err.dayError(response);
+                err.dayError(response, ageday);
         }
     }
 };
