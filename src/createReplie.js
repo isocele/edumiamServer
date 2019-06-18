@@ -13,7 +13,7 @@ function createText(data) {
             "text": data.content,
             quick_replies
         });
-    } else if (data.buttontitle || data.favori) {
+    } else if ((data.buttontitle && data.buttontitle !== " ") || (data.favori && data.favori !== " ")) {
         buttons = addButtons(parseResponse(data.buttontitle, data.buttontype, data.buttonuse), data);
         replie.push({
             "attachment": {
@@ -56,10 +56,9 @@ function createMedia(data) {
     if (data.quickreplies) {
         var quick_replies = addQuickReplie(parseResponse(data.quickreplies, data.quickrepliesurl));
         replie[replie.length - 1].quick_replies = quick_replies;
-    }
-
-    if (data.buttontitle || data.favori) {
-        var buttons = addButtons(parseResponse(data.buttontitle, data.buttonuse), data);
+    } else if ((data.buttontitle && data.buttontitle !== " ") || (data.favori && data.favori !== " ")) {
+        console.log("oui")
+        var buttons = addButtons(parseResponse(data.buttontitle, data.buttontype, data.buttonuse), data);
         replie[replie.length - 1].attachment.payload.elements = [{
             "title": data.title,
             "image_url": data.content,
@@ -115,6 +114,7 @@ function addTitle(title) {
 function parseResponse(titles, types, urls) {
     var lines = parse.countLine(titles);
 
+    console.log(titles, types, urls)
     if (lines !== parse.countLine(urls))
         console.log("il n'y a pas le meme nombre de buttons / url")
     return ([parse.strToArray(titles), parse.strToArray(types), parse.strToArray(urls)]);

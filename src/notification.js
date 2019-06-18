@@ -46,6 +46,7 @@ module.exports = {
             if (parseInt(data[i].id, 10) === id) {
                 //TODO si on repasse en format date changer les format de variable
             //if (data[i].id === id) {
+                console.log(data[i])
                 return (data[i])
             }
         }
@@ -93,7 +94,7 @@ module.exports = {
             else if (pertinentData.state && pertinentData.state !== " ")
                 createResponse(pertinentData, requestOptions, response);
             else
-                err.dayError(response, ageday);
+                err.dayError(response, ageDay);
         }
     }
 };
