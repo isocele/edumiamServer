@@ -24,13 +24,13 @@ module.exports = {
         });
     },
 
-    dayError: function(response) {
-        console.log("405: No data for this peticular day");
+    dayError: function(response, ageDay) {
+        console.log("405: No data for day " + ageDay);
         requestPromise(requestOptions)
             .then(function () {
                 response.json({
                     status: 405,
-                    log: "No data for this peticular day"
+                    log: "No data for day " + ageDay
                 })
             });
     },

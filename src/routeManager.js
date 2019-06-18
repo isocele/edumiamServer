@@ -19,7 +19,7 @@ const requestOptions = {
 app.use(express.static('public'));
 err.initError(requestOptions);
 
-// Toute les routes pour les différentes requètes
+// Toutes les routes pour les différentes requètes
 
 // Retourne un block affiché directement sur chatfuel
 app.get('/api/notif', (request, response) => {

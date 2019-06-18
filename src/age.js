@@ -2,7 +2,6 @@ module.exports = {
 
     findAge: function (birth) {
         // filtre les formats de date + les dates invalides (c'est brouillon... refaire en int ?)
-        console.log(birth);
         if (((birth[0] >= 0 && birth[0] < 3) || (birth[0] == 3 && (birth[1] == 0 || birth[1] == 1))) &&
             birth[1] >= 0 && birth[2] === '.' &&
             (birth[3] == 0 || (birth[3] == 1 && birth[4] <= 2)) && birth[4] >= 0 && birth[5] === '.' &&
@@ -19,7 +18,6 @@ module.exports = {
             var date = new Date();
             // Calcul le nombre de jour exact séparant la date d'aujourd'hui à la date de naissance
             var ageDay = (date.getUTCFullYear() - year) * 365 + ((-parseInt(month, 10) + date.getUTCMonth() + 1) * 30.5) + (date.getUTCDate() - day)
-            console.log(ageDay);
             return (parseInt(ageDay, 10) + 1)
         }
         return "error";
