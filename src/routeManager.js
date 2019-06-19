@@ -17,6 +17,7 @@ const requestOptions = {
 };
 
 app.use(express.static('public'));
+
 err.initError(requestOptions);
 
 // Toutes les routes pour les différentes requètes

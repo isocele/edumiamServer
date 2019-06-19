@@ -3,8 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="10c40e37-f349-4c2c-aef0-4ad02c9f2e3d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/chatfuelResponse" beforeDir="false" afterPath="$PROJECT_DIR$/src/chatfuelResponse" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/createReplie.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/createReplie.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/favoris.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/favoris.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routeManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routeManager.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -56,17 +57,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/routeManager.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="9" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
+            <state relative-caret-position="51">
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/createReplie.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="739">
-              <caret line="97" selection-start-line="97" selection-end-line="97" />
+            <state relative-caret-position="229">
+              <caret line="67" column="4" selection-start-line="67" selection-start-column="4" selection-end-line="67" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -74,17 +75,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/chatfuelResponse">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="17" column="35" lean-forward="true" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
+            <state relative-caret-position="-94">
+              <caret line="13" column="31" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/favoris.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="688">
-              <caret line="186" selection-start-line="186" selection-end-line="187" />
+            <state relative-caret-position="637">
+              <caret line="183" selection-start-line="183" selection-end-line="183" />
             </state>
           </provider>
         </entry>
@@ -106,17 +107,17 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/routeManager.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/age.js" />
-        <option value="$PROJECT_DIR$/src/chatfuelResponse" />
         <option value="$PROJECT_DIR$/src/notification.js" />
         <option value="$PROJECT_DIR$/src/hubspot.js" />
         <option value="$PROJECT_DIR$/src/errorHandle.js" />
         <option value="$PROJECT_DIR$/src/scrapFile.js" />
         <option value="$PROJECT_DIR$/src/sheets.js" />
-        <option value="$PROJECT_DIR$/src/favoris.js" />
+        <option value="$PROJECT_DIR$/src/routeManager.js" />
+        <option value="$PROJECT_DIR$/src/chatfuelResponse" />
         <option value="$PROJECT_DIR$/src/createReplie.js" />
+        <option value="$PROJECT_DIR$/src/favoris.js" />
       </list>
     </option>
   </component>
@@ -138,6 +139,11 @@
             <path>
               <item name="edumiamServer" type="b2602c69:ProjectViewProjectNode" />
               <item name="edumiamServer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="edumiamServer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="edumiamServer" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="edumiamServer" type="b2602c69:ProjectViewProjectNode" />
@@ -191,7 +197,7 @@
       <workItem from="1560759814188" duration="748000" />
       <workItem from="1560762793624" duration="7541000" />
       <workItem from="1560845514106" duration="22049000" />
-      <workItem from="1560931762729" duration="13136000" />
+      <workItem from="1560931762729" duration="17518000" />
     </task>
     <task id="LOCAL-00001" summary="nodemon fix">
       <created>1560858762358</created>
@@ -221,11 +227,25 @@
       <option name="project" value="LOCAL" />
       <updated>1560948332529</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="minor fix for little gallerie">
+      <created>1560948926733</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1560948926733</updated>
+    </task>
+    <task id="LOCAL-00006" summary="minor fix for little gallerie">
+      <created>1560952704076</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1560952704076</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="55074000" />
+    <option name="totallyTimeSpent" value="59456000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -314,13 +334,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/routeManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="9" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/age.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -364,13 +377,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/chatfuelResponse">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="17" column="35" lean-forward="true" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sheets.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="544">
@@ -378,17 +384,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/favoris.js">
+    <entry file="file://$PROJECT_DIR$/src/routeManager.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="688">
-          <caret line="186" selection-start-line="186" selection-end-line="187" />
+        <state relative-caret-position="51">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chatfuelResponse">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-94">
+          <caret line="13" column="31" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/createReplie.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="739">
-          <caret line="97" selection-start-line="97" selection-end-line="97" />
+        <state relative-caret-position="229">
+          <caret line="67" column="4" selection-start-line="67" selection-start-column="4" selection-end-line="67" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/favoris.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="637">
+          <caret line="183" selection-start-line="183" selection-end-line="183" />
         </state>
       </provider>
     </entry>

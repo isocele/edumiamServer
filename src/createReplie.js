@@ -65,7 +65,7 @@ function createMedia(data) {
             }
         }
     });
-
+    
     if (data.quickreplies) {
         var quick_replies = chatfuel.addQuickReplie(parseResponse(data.quickreplies, data.quickrepliesurl));
         replie[replie.length - 1].quick_replies = quick_replies;
