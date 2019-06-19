@@ -89,12 +89,16 @@ function initGallerie() {
 
 function addtoGallerie(block) {
     var buttons = [];
+    var subtitle = block.subtitle;
 
+    if (!block.subtitle)
+        subtitle = " ";
     if (block.buttontitle)
         buttons = chatfuel.createButtons(block);
     gallerie.messages[0].attachment.payload.elements.push({
         "title": block.title,
         "image_url": block.content,
+        "subtitle": subtitle,
         buttons
     });
 }
