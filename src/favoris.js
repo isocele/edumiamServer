@@ -1,9 +1,6 @@
-const requestPromise = require('request-promise');
-const apikey = "2e27342c-a4bb-4b3c-a1fa-30f8b9b0f702";
-
 const parse = require('./parsingTools.js');
-const sheets = require('./notification');
-const replie = require('./createReplie');
+const sheets = require('./sheets');
+const chatfuel = require('./chatfuelResponse');
 const hub = require('./hubspot');
 const error = require('./errorHandle');
 
@@ -93,9 +90,8 @@ function initGallerie() {
 function addtoGallerie(block) {
     var buttons = [];
 
-    //console.log(block);
     if (block.buttontitle)
-        buttons = replie.createButtons(block);
+        buttons = chatfuel.createButtons(block);
     gallerie.messages[0].attachment.payload.elements.push({
         "title": block.title,
         "image_url": block.content,
@@ -109,10 +105,10 @@ async function drawFavoris(req, response) {
 
     if (info !== -1 && info.properties.favoris) {
         var favoris = parse.strToArray(info.properties.favoris.value);
+        var alldata = await sheets.getSheets("14KBR0jBKfHg7ZgmggKY8tEDClcN2BXcj4gF2mzvVjUM");
         initGallerie();
         for (let i = 0; i < favoris.length; i++) {
             if (favoris[i].substring(0, favoris[i].search(':')) === "push") {
-                var alldata = await sheets.getSheets("14KBR0jBKfHg7ZgmggKY8tEDClcN2BXcj4gF2mzvVjUM");
                 // addtoGallerie(sheets.fetchData(parseInt(favoris[i].substring(favoris[i].search(":") + 2, favoris[i].length),
                 //     10), alldata));
                 // TODO changer ^
@@ -124,7 +120,7 @@ async function drawFavoris(req, response) {
         }
         return 0
     }
-    error.favorisError(response);
+//    error.favorisError(response);
     return -1
 }
 
@@ -181,5 +177,14 @@ module.exports = {
         const result = await checkDelete(req, res);
 
         res.json(result);
+    },
+
+    makeGallerie: function (files, alldata) {
+        initGallerie();
+
+        for (let i = 0; i < files.length; i++) {
+            addtoGallerie(sheets.fetchData(files[i], alldata));
+        }
+        return gallerie;
     }
 };

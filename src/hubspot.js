@@ -65,7 +65,7 @@ module.exports = {
                 json: true
             });
         } catch (err) {
-            error.requestError(response);
+            error.requestError(response, err.error.message);
             console.log(err.error);
             return -1
         }

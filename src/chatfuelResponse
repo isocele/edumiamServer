@@ -1,0 +1,55 @@
+const parse = require('./parsingTools.js');
+
+function addButtons(rep, data) {
+    var buttons = [];
+
+    if (data.buttontitle) {
+        for (let i = 0; i < rep[0].length; i++) {
+            buttons.push({
+                "type": rep[1][i],
+                "title": rep[0][i],
+                "url": rep[2][i]
+            })
+        }
+    }
+    if (data.favori)
+        buttons.push({
+            "type": "json_plugin_url",
+            "title": "Sauvegarder",
+            "url": "http://isocele-edumiamserver-3.glitch.me/api/favoris/new?vid={{vid}}&push=" + data.favori
+        });
+    return buttons;
+}
+
+
+function parseResponse(titles, types, urls) {
+    var lines = parse.countLine(titles);
+
+    if (lines !== parse.countLine(urls))
+        console.log("il n'y a pas le meme nombre de buttons / url");
+    return ([parse.strToArray(titles), parse.strToArray(types), parse.strToArray(urls)]);
+}
+
+module.exports = {
+
+    createButtons(but) {
+        return addButtons(parseResponse(but.buttontitle, but.buttontype, but.buttonuse), but)
+    },
+
+
+    addTitle(title) {
+        replie.push({"text": title});
+    },
+
+    addQuickReplie(rep) {
+        var quick_replies = [];
+
+        for (let i = 0; i < rep[0].length; i++) {
+            quick_replies.push({
+                "title": rep[0][i],
+                "block_names": [rep[1][i].substring(6)],
+            })
+        }
+        return quick_replies;
+    }
+};

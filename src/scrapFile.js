@@ -1,5 +1,4 @@
 const {google} = require('googleapis');
-var sheets = google.sheets('v4');
 var fs = require('fs');
 const requestPromise = require('request-promise');
 
@@ -49,7 +48,6 @@ function parseNumber(contents) {
             ret.push(contents.substring(i, j))
         }
     }
-    console.log(ret);
 }
 
 module.exports = {

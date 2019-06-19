@@ -35,13 +35,13 @@ module.exports = {
             });
     },
 
-    requestError: function(response) {
+    requestError: function(response, log) {
         console.log("403: Error in the request");
         requestPromise(requestOptions)
             .then(function () {
                 response.json({
                     status: 403,
-                    log: "Error in the request"
+                    log: "Error in the request: " + log
                 })
 
             });

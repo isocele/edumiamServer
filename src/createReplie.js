@@ -1,4 +1,7 @@
 const parse = require('./parsingTools.js');
+const favoris = require('./favoris');
+const sheets = require('./sheets');
+const chatfuel = require('./chatfuelResponse');
 
 var replie = [];
 
@@ -8,13 +11,13 @@ function createText(data) {
 
     addTitle(data.title);
     if (data.quickreplies) {
-        quick_replies = addQuickReplie(parseResponse(data.quickreplies, data.quickrepliesurl));
+        quick_replies = chatfuel.addQuickReplie(parseResponse(data.quickreplies, data.quickrepliesurl));
         replie.push({
             "text": data.content,
             quick_replies
         });
     } else if ((data.buttontitle && data.buttontitle !== " ") || (data.favori && data.favori !== " ")) {
-        buttons = addButtons(parseResponse(data.buttontitle, data.buttontype, data.buttonuse), data);
+        buttons = chatfuel.createButtons(data);
         replie.push({
             "attachment": {
                 "type": "template",
@@ -30,6 +33,16 @@ function createText(data) {
             "text": data.content
         });
     }
+}
+
+async function createGallerie(data) {
+    var files = parse.strToArray(data.content);
+
+    var alldata = await sheets.getSheets("1RPMo96lLAXLk9c_XnIm8vlL8jqcfPK9gCNQ7wxMkP3A");
+    var gallerie = favoris.makeGallerie(files, alldata);
+    replie.push({
+        gallerie
+    });
 }
 
 function createMedia(data) {
@@ -54,11 +67,10 @@ function createMedia(data) {
     });
 
     if (data.quickreplies) {
-        var quick_replies = addQuickReplie(parseResponse(data.quickreplies, data.quickrepliesurl));
+        var quick_replies = chatfuel.addQuickReplie(parseResponse(data.quickreplies, data.quickrepliesurl));
         replie[replie.length - 1].quick_replies = quick_replies;
     } else if ((data.buttontitle && data.buttontitle !== " ") || (data.favori && data.favori !== " ")) {
-        console.log("oui")
-        var buttons = addButtons(parseResponse(data.buttontitle, data.buttontype, data.buttonuse), data);
+        var buttons = chatfuel.createButtons(data);
         replie[replie.length - 1].attachment.payload.elements = [{
             "title": data.title,
             "image_url": data.content,
@@ -68,65 +80,10 @@ function createMedia(data) {
     }
 }
 
-function addQuickReplie(rep) {
-    var quick_replies = [];
-
-    for (let i = 0; i < rep[0].length; i++) {
-        quick_replies.push({
-            "title": rep[0][i],
-            "block_names": [rep[1][i].substring(6)],
-        })
-    }
-    return quick_replies;
-}
-
-function addButtons(rep, data) {
-    var buttons = [];
-
-    if (data.buttontitle) {
-        for (let i = 0; i < rep[0].length; i++) {
-            buttons.push({
-                "type": rep[1][i],
-                "title": rep[0][i],
-                "url": rep[2][i]
-            })
-            /*            buttons.push({
-                            "type": data.buttontype,
-                            "title": data.buttontitle,
-                            "url": data.buttonuse
-                        });*/
-        }
-    }
-    if (data.favori)
-        buttons.push({
-            "type": "json_plugin_url",
-            "title": "Sauvegarder",
-            "url": "http://isocele-edumiamserver-3.glitch.me/api/favoris/new?vid={{vid}}&push=" + data.favori
-        });
-    //console.log(buttons)
-    return buttons;
-}
-
-function addTitle(title) {
-    replie.push({"text": title});
-}
-
-function parseResponse(titles, types, urls) {
-    var lines = parse.countLine(titles);
-
-    console.log(titles, types, urls)
-    if (lines !== parse.countLine(urls))
-        console.log("il n'y a pas le meme nombre de buttons / url")
-    return ([parse.strToArray(titles), parse.strToArray(types), parse.strToArray(urls)]);
-}
 
 module.exports = {
 
-    createButtons(but) {
-        return addButtons(parseResponse(but.buttontitle, but.buttontype, but.buttonuse), but)
-    },
-
-    createReplie: function (data) {
+    createReplie: async function (data) {
         for (var item in replie)
             delete replie[item];
         replie = [];
@@ -134,8 +91,10 @@ module.exports = {
         // console.log(data.maintype);
         if (data.maintype === "text")
             createText(data);
-        else
+        else if (data.maintype === "image")
             createMedia(data);
+        else
+            await createGallerie(data);
         return (replie)
     },
 };
