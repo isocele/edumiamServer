@@ -182,9 +182,9 @@ module.exports = {
     makeGallerie: function (files, alldata) {
         initGallerie();
 
-        for (let i = 0; i < files.length - 1; i++) {
+        for (let i = 0; i < files.length; i++) {
             addtoGallerie(sheets.fetchData(files[i], alldata));
-            // console.log(i, JSON.stringify(gallerie))
+            console.log(i, JSON.stringify(gallerie))
         }
         return gallerie;
     }
