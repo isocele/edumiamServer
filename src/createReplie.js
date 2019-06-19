@@ -95,6 +95,6 @@ module.exports = {
             createMedia(data);
         else
             await createGallerie(data);
-        return (replie)
+        return (replie[0].gallerie.messages)
     },
 };

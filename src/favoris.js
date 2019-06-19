@@ -184,7 +184,7 @@ module.exports = {
 
         for (let i = 0; i < files.length - 1; i++) {
             addtoGallerie(sheets.fetchData(files[i], alldata));
-            console.log(i, JSON.stringify(gallerie))
+            // console.log(i, JSON.stringify(gallerie))
         }
         return gallerie;
     }
