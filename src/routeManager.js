@@ -56,6 +56,7 @@ app.get('/api/notif', (request, response) => {
         age.returnMonth(request, response, requestOptions);
     })
 
+    // Parse le fichier ./assets/chatbot_conv
     .get('/scrap', (request, response) => {
        console.log("!-- Requéte pour réécrire un fichier sur un sheets");
         scrap.scrapfileRoute(response, requestOptions);

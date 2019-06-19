@@ -5,11 +5,19 @@ function addButtons(rep, data) {
 
     if (data.buttontitle) {
         for (let i = 0; i < rep[0].length; i++) {
-            buttons.push({
-                "type": rep[1][i],
-                "title": rep[0][i],
-                "url": rep[2][i]
-            })
+            if (rep[1][i] === "block"){
+                buttons.push({
+                    "type": rep[1][i],
+                    "title": rep[0][i],
+                    "block_name" : rep[2][i]
+                })
+            } else {
+                buttons.push({
+                    "type": rep[1][i],
+                    "title": rep[0][i],
+                    "url" : rep[2][i]
+                })
+            }
         }
     }
     if (data.favori)
