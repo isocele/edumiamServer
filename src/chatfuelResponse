@@ -22,11 +22,17 @@ function addButtons(rep, data) {
             }
         }
     }
-    if (data.favori)
+    if (data.favori === 'add')
         buttons.push({
             "type": "json_plugin_url",
             "title": "Sauvegarder",
-            "url": "http://isocele-edumiamserver-3.glitch.me/api/favoris/new?vid={{vid}}&push=" + data.favori
+            "url": "http://52.14.42.174/api/favoris/new?vid={{vid}}&push=" + data.id
+        });
+    else if (data.favori === 'delete')
+        buttons.push({
+            "type": "json_plugin_url",
+            "title": "Supprimer le favori",
+            "url": "http://52.14.42.174/api/favoris/delete?vid={{vid}}&push=" + data.id
         });
     return buttons;
 }

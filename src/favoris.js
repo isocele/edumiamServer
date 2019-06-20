@@ -87,17 +87,17 @@ function initGallerie() {
     };
 }
 
-function addtoGallerie(block) {
+function addtoGallerie(memo) {
     var buttons = [];
-    var subtitle = block.subtitle;
+    var subtitle = memo.subtitle;
 
-    if (!block.subtitle)
+    if (!memo.subtitle)
         subtitle = " ";
-    if (block.buttontitle)
-        buttons = chatfuel.createButtons(block);
+    if (memo.buttontitle)
+        buttons = chatfuel.createButtons(memo);
     gallerie.messages[0].attachment.payload.elements.push({
-        "title": block.title,
-        "image_url": block.content,
+        "title": memo.title,
+        "image_url": memo.content,
         "subtitle": subtitle,
         buttons
     });
@@ -116,7 +116,7 @@ async function drawFavoris(req, response) {
                 // addtoGallerie(sheets.fetchData(parseInt(favoris[i].substring(favoris[i].search(":") + 2, favoris[i].length),
                 //     10), alldata));
                 // TODO changer ^
-                addtoGallerie(sheets.fetchData(favoris[i].substring(favoris[i].search(":") + 2, favoris[i].length), alldata));
+                addtoGallerie(sheets.fetchData(favoris[i].substring(favoris[i].search(":") + 2, favoris[i].length), alldata), alldata);
             } else {
                 console.log("erreur : Mauvais format ?");
                 console.log(favoris[i].substring(0, favoris[i].search(':')));
@@ -188,7 +188,6 @@ module.exports = {
 
         for (let i = 0; i < files.length; i++) {
             addtoGallerie(sheets.fetchData(files[i], alldata));
-            console.log(i, JSON.stringify(gallerie))
         }
         return gallerie;
     }
