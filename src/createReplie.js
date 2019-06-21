@@ -9,7 +9,7 @@ function createText(data) {
     var quick_replies = {};
     var buttons = {};
 
-    addTitle(data.title);
+    chatfuel.addTitle(replie, data.title);
     if (data.quickreplies) {
         quick_replies = chatfuel.addQuickReplie(parseResponse(data.quickreplies, data.quickrepliesurl));
         replie.push({
@@ -93,8 +93,11 @@ module.exports = {
             createText(data);
         else if (data.maintype === "image")
             createMedia(data);
-        else
+        else {
+
             await createGallerie(data);
-        return (replie[0].gallerie.messages)
+            return (replie[0].gallerie.messages)
+        }
+        return (replie)
     },
 };

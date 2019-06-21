@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="10c40e37-f349-4c2c-aef0-4ad02c9f2e3d" name="Default Changelist" comment="Maxing notification">
+    <list default="true" id="10c40e37-f349-4c2c-aef0-4ad02c9f2e3d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/notification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/notification.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/chatfuelResponse" beforeDir="false" afterPath="$PROJECT_DIR$/src/chatfuelResponse" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/createReplie.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/createReplie.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -25,11 +26,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/notification.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="24" column="20" lean-forward="true" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+            <state relative-caret-position="433">
+              <caret line="27" column="13" lean-forward="true" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -61,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/createReplie.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1139">
-              <caret line="67" column="4" selection-start-line="67" selection-start-column="4" selection-end-line="67" selection-end-column="4" />
+            <state relative-caret-position="773">
+              <caret line="100" selection-start-line="100" selection-end-line="100" />
             </state>
           </provider>
         </entry>
@@ -114,6 +115,7 @@
       <find>console</find>
       <find>addto</find>
       <find>block</find>
+      <find>addTitle</find>
     </findStrings>
     <replaceStrings>
       <replace>memo</replace>
@@ -132,14 +134,14 @@
         <option value="$PROJECT_DIR$/src/scrapFile.js" />
         <option value="$PROJECT_DIR$/src/sheets.js" />
         <option value="$PROJECT_DIR$/src/routeManager.js" />
-        <option value="$PROJECT_DIR$/src/createReplie.js" />
         <option value="$PROJECT_DIR$/src/favoris.js" />
-        <option value="$PROJECT_DIR$/src/chatfuelResponse" />
         <option value="$PROJECT_DIR$/UnitTest/MochaTest" />
         <option value="$PROJECT_DIR$/test/MochaTest.js" />
         <option value="$PROJECT_DIR$/test/mochaTest;js.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/notification.js" />
+        <option value="$PROJECT_DIR$/src/chatfuelResponse" />
+        <option value="$PROJECT_DIR$/src/createReplie.js" />
       </list>
     </option>
   </component>
@@ -235,7 +237,7 @@
       <workItem from="1560762793624" duration="7541000" />
       <workItem from="1560845514106" duration="22049000" />
       <workItem from="1560931762729" duration="19591000" />
-      <workItem from="1561016764152" duration="16867000" />
+      <workItem from="1561016764152" duration="17883000" />
     </task>
     <task id="LOCAL-00001" summary="nodemon fix">
       <created>1560858762358</created>
@@ -314,11 +316,18 @@
       <option name="project" value="LOCAL" />
       <updated>1561107435840</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="loop for export">
+      <created>1561110776161</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1561110776161</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="78396000" />
+    <option name="totallyTimeSpent" value="79412000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -331,6 +340,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13006397" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -384,7 +394,8 @@
     <MESSAGE value="adding subtitle for gallerie" />
     <MESSAGE value="adding and deleting buttons now are placed automitiquely" />
     <MESSAGE value="Maxing notification to 388" />
-    <option name="LAST_COMMIT_MESSAGE" value="Maxing notification to 388" />
+    <MESSAGE value="loop for export" />
+    <option name="LAST_COMMIT_MESSAGE" value="loop for export" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/AppData/Roaming/Hyper/.hyper.js">
@@ -451,13 +462,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/createReplie.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1139">
-          <caret line="67" column="4" selection-start-line="67" selection-start-column="4" selection-end-line="67" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/favoris.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="620">
@@ -512,8 +516,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/notification.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="24" column="20" lean-forward="true" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+        <state relative-caret-position="433">
+          <caret line="27" column="13" lean-forward="true" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/createReplie.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="773">
+          <caret line="100" selection-start-line="100" selection-end-line="100" />
         </state>
       </provider>
     </entry>

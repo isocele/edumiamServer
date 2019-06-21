@@ -53,7 +53,7 @@ module.exports = {
     },
 
 
-    addTitle(title) {
+    addTitle(replie, title) {
         replie.push({"text": title});
     },
 
