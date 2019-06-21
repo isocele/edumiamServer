@@ -46,6 +46,8 @@ module.exports = {
         if (ageDay === -1)
             err.ageError(response);
         else {
+            if (ageDay > 388)
+                ageDay = 388;
             let allData = await sheets.getSheets('1UKv3jbA6reYFcbDoAPOj6SbdYLINQVNL8arUHXnRR0U');
             let pertinentData = sheets.fetchData(ageDay, allData);
             if (pertinentData === -1)

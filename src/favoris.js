@@ -7,6 +7,7 @@ const error = require('./errorHandle');
 
 var gallerie = {};
 
+// Fais la syntaxe à sauvegarder dans Hubspot pour etre capable de le lire dans favoris.js
 function createFavoris(req) {
     if (req.query.push)
         return ("push: " + req.query.push);
@@ -14,6 +15,7 @@ function createFavoris(req) {
         return ("block: " + req.query.block)
 }
 
+// Permet de checker avant d'ajouter un nouveau favoris si il est deja enregistré
 function checkdouble(fav, add) {
     var arrfav = parse.strToArray(fav);
 
@@ -25,6 +27,7 @@ function checkdouble(fav, add) {
     return true
 }
 
+// Réecris la valeur <favori> de hubspot avec un favori de moins
 function deleteFavoris(fav, del) {
     var arrfav = parse.strToArray(fav);
     var newfav = "";
@@ -34,9 +37,11 @@ function deleteFavoris(fav, del) {
             newfav += arrfav[i].toString() + '\n';
     }
 
+    // Renvoit sans le dernier '\n'
     return (newfav.substring(0, newfav.length - 1));
 }
 
+// Va aller chercher les anciens favoris et en ajouter un nouveau si possible pour enfin mettre le profil à jour
 async function newFavoris(req, res) {
     const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile";
     var favoris = await hub.hubspotApi(req, url, {}, 'GET', res);
@@ -50,7 +55,7 @@ async function newFavoris(req, res) {
             return ({
                 "success": 406,
                 "messages": [
-                    {"text": "Vous avez déjà enregistré ce favoris"},
+                    {"text": "Vous avez déjà enregistré ce favori"},
                 ]
             });
         else
@@ -71,6 +76,7 @@ async function newFavoris(req, res) {
     });
 }
 
+// Créer le squelette d'une réponse affichant une gallerie pour Chatfuel
 function initGallerie() {
     gallerie = {
         "messages": [
@@ -87,6 +93,7 @@ function initGallerie() {
     };
 }
 
+// Ajoute une fiche à la gallerie
 function addtoGallerie(memo) {
     var buttons = [];
     var subtitle = memo.subtitle;
@@ -103,6 +110,7 @@ function addtoGallerie(memo) {
     });
 }
 
+// Créer la réponse pour que Chatfuel affiche la gallerie de favorisen parsant le query...
 async function drawFavoris(req, response) {
     const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile";
     var info = await hub.hubspotApi(req, url, {}, 'GET', response);
@@ -113,9 +121,6 @@ async function drawFavoris(req, response) {
         initGallerie();
         for (let i = 0; i < favoris.length; i++) {
             if (favoris[i].substring(0, favoris[i].search(':')) === "push") {
-                // addtoGallerie(sheets.fetchData(parseInt(favoris[i].substring(favoris[i].search(":") + 2, favoris[i].length),
-                //     10), alldata));
-                // TODO changer ^
                 addtoGallerie(sheets.fetchData(favoris[i].substring(favoris[i].search(":") + 2, favoris[i].length), alldata), alldata);
             } else {
                 console.log("erreur : Mauvais format ?");
@@ -128,6 +133,7 @@ async function drawFavoris(req, response) {
     return -1
 }
 
+// Gére la suppresion d'un favori et met à jour le profil Hubspot
 async function checkDelete(req, res) {
     const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile";
     var info = await hub.hubspotApi(req, url, {}, 'GET', res);
@@ -183,6 +189,7 @@ module.exports = {
         res.json(result);
     },
 
+    // Utilise les fonctions de Favoris pour faire une gallerie standard
     makeGallerie: function (files, alldata) {
         initGallerie();
 
