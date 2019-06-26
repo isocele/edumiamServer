@@ -7,6 +7,7 @@ const favoris = require('./favoris');
 const err = require('./errorHandle');
 const age = require('./age');
 const scrap = require('./scrapFile');
+const question = require('./question');
 
 const requestOptions = {
     uri: 'https://www.google.com/',
@@ -55,6 +56,11 @@ app.get('/api/notif', (request, response) => {
     .get('/api/getmonth', (request, response) => {
         console.log("!-- Requéte pour obtenir le mois de l'enfant");
         age.returnMonth(request, response, requestOptions);
+    })
+
+    .get('/api/question', (request, response) => {
+        console.log("!-- Requéte pour enregistré une question");
+        question.createQuestion(request, response, requestOptions);
     })
 
     // Parse le fichier ./assets/chatbot_conv

@@ -48,6 +48,7 @@ function parseNumber(contents) {
             ret.push(contents.substring(i, j))
         }
     }
+    console.log(ret)
 }
 
 module.exports = {
@@ -58,6 +59,7 @@ module.exports = {
             if (contents) {
                 //console.log(contents);
                 parseNumber(contents);
+                // parseData(contents)
                 //writeSheet(requestOptions);
             }
 
