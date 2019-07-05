@@ -24,7 +24,8 @@ module.exports = {
                 return (parseInt(ageDay, 10) + 1)
             }
         }
-        catch {
+        catch (error) {
+            console.log(error)
             return -1;
         }
         return -1;
