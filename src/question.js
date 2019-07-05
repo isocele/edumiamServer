@@ -35,7 +35,7 @@ module.exports = {
                     }
                     res.json({
                         status: 200,
-                        log: "File : " + file + " was added anew question",
+                        log: "File : " + file + " was added a new question",
                         "messages": [{
                             "text": "Vous venez de poser une question à notre équipe ! Un peu de patience, nous vous répondrons sous peu !"
                         }]

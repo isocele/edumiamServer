@@ -8,11 +8,12 @@ module.exports = {
     },
 
     ageError: function(response) {
-        console.log("402: Date of birth is invalid");
+        console.log("401: Date of birth is invalid");
         requestPromise(requestOptions)
         .then(function() {
+            response.sendStatus(401);
             response.json({
-                status: 402,
+                Status: 401,
                 log: "Date of birth is invalid",
                 "set_attributes": {
                     "validbirthdate": false
@@ -25,22 +26,24 @@ module.exports = {
     },
 
     dayError: function(response, ageDay) {
-        console.log("405: No data for day " + ageDay);
+        console.log("204: No data for day " + ageDay);
+        response.sendStatus(204);
         requestPromise(requestOptions)
             .then(function () {
                 response.json({
-                    status: 405,
+                    status: 204,
                     log: "No data for day " + ageDay
                 })
             });
     },
 
     requestError: function(response, log) {
-        console.log("403: Error in the request");
+        console.log("401: Error in the request");
+        response.sendStatus(401);
         requestPromise(requestOptions)
             .then(function () {
                 response.json({
-                    status: 403,
+                    status: 401,
                     log: "Error in the request: " + log
                 })
 
@@ -48,6 +51,7 @@ module.exports = {
     },
 
     emailError: function(response) {
+        response.sendStatus(401);
         console.log("401: Email Invalid");
         requestPromise(requestOptions)
             .then(function () {
@@ -60,11 +64,12 @@ module.exports = {
     },
 
     favorisError: function(response) {
-        console.log("407: Aucun Favoris");
+        console.log("204: No Favoris");
+        response.sendStatus(204);
         requestPromise(requestOptions)
             .then(function() {
                 response.json({
-                    status: 407,
+                    status: 204,
                     log: "Aucun favoris",
                     "messages": [
                         {"text": "Tu n'as pas encore de Favori ! Pour en ajouter appuis sur les boutons Favoris présents sur certaines fiches."}

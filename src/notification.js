@@ -46,9 +46,9 @@ function nextNotif(day, data) {
 module.exports = {
 
     spreadSheetRoute: async function (request, response, requestOptions) {
-        // var ageDay = age.findAge(request.query.babybirth);
+        var ageDay = age.findAge(request.query.babybirth);
 
-        var ageDay = request.query.babybirth;
+        // var ageDay = request.query.babybirth;
         if (ageDay === -1)
             err.ageError(response);
         else {
