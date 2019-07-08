@@ -27,7 +27,7 @@ module.exports = {
 
     // Trouve la colonne du tableau <data> correspondant avec l'<id> (jour cummulé ou id favoris, fiche...)
     fetchData: function (id, data) {
-        //Je transforme l'id en string pour être sur de la façon dont je dois la manipuler
+        // Transforme l'id en string pour être sûr de comment la manipuler
         id = "" + id;
         for (let i = 0; i < data.length; i++) {
             // console.log(id, data[i].id)

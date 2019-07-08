@@ -37,10 +37,11 @@ async function createResponse(pertinentData, requestOptions, response, next) {
 function nextNotif(day, data) {
     var i = 0;
 
+    day = "" + day;
     for (; data[i].id !== day; i++);
     i++;
     for (; !data[i].state || data[i].state === " "; i++);
-    return data[i].id;
+    return parseInt(data[i].id);
 }
 
 module.exports = {
@@ -49,17 +50,22 @@ module.exports = {
         var ageDay = age.findAge(request.query.babybirth);
 
         // var ageDay = request.query.babybirth;
-        if (ageDay === -1)
+        if (ageDay === -2)
             err.ageError(response);
         else {
-            if (ageDay > 388)
-                ageDay = 388;
             let allData = await sheets.getSheets('1UKv3jbA6reYFcbDoAPOj6SbdYLINQVNL8arUHXnRR0U');
             let pertinentData = sheets.fetchData(ageDay, allData);
+            console.log(ageDay);
+            console.log(pertinentData);
             if (pertinentData === -1)
                 err.dayError(response, ageDay);
-            else if (pertinentData.state && pertinentData.state !== " ")
-                createResponse(pertinentData, requestOptions, response, nextNotif(ageDay, allData));
+            else if (pertinentData.state && pertinentData.state !== " ") {
+                if (ageDay === 388)
+                    var next = -1;
+                else
+                    var next = nextNotif(ageDay, allData);
+                createResponse(pertinentData, requestOptions, response, next);
+            }
             else
                 err.dayError(response, ageDay);
         }

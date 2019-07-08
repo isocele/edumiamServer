@@ -21,14 +21,19 @@ module.exports = {
                 var date = new Date();
                 // Calcul le nombre de jour exact séparant la date d'aujourd'hui à la date de naissance
                 var ageDay = (date.getUTCFullYear() - year) * 365 + ((-parseInt(month, 10) + date.getUTCMonth() + 1) * 30.5) + (date.getUTCDate() - day)
-                return (parseInt(ageDay, 10) + 1)
+                ageDay = parseInt(ageDay, 10) + 1
+                if (ageDay > 388)
+                    ageDay = 388;
+                if (ageDay < 0)
+                    ageDay = -1;
+                return (ageDay)
             }
         }
         catch (error) {
-            console.log(error)
-            return -1;
+            console.log(error);
+            return -2;
         }
-        return -1;
+        return -2;
     },
 
     returnMonth: function (req, response) {

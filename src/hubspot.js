@@ -18,7 +18,7 @@ function createProperties(req) {
 
     for (let item in req.query) {
         if (item === "babybirth")
-            if (age.findAge(req.query[item]) === "error")
+            if (age.findAge(req.query[item]) === -2)
                 return false;
         if (item !== "vid" && item !== "Country" && item !== "Source") {
             properties.push({
