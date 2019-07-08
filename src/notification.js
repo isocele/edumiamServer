@@ -54,6 +54,8 @@ module.exports = {
             err.ageError(response);
         else {
             let allData = await sheets.getSheets('1UKv3jbA6reYFcbDoAPOj6SbdYLINQVNL8arUHXnRR0U');
+            if (ageDay < -1)
+                ageDay = -1;
             let pertinentData = sheets.fetchData(ageDay, allData);
             console.log(ageDay);
             console.log(pertinentData);

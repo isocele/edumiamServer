@@ -42,7 +42,6 @@ module.exports = {
         // Cas de futur accouchement !
         if (ageDays !== "error" && ageDays < 0) {
             var time = (-ageMonth) + " mois";
-            console.log(time, ageWeek, ageMonth, ageDays)
             if (ageMonth >= -2)
                 time = parseInt(ageDays / -7, 10) + " semaine(s)";
             response.json({
