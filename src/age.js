@@ -21,19 +21,18 @@ module.exports = {
                 var date = new Date();
                 // Calcul le nombre de jour exact séparant la date d'aujourd'hui à la date de naissance
                 var ageDay = (date.getUTCFullYear() - year) * 365 + ((-parseInt(month, 10) + date.getUTCMonth() + 1) * 30.5) + (date.getUTCDate() - day)
-                ageDay = parseInt(ageDay, 10) + 1
+                ageDay = parseInt(ageDay, 10) + 1;
+                // Age de la dernière notification disponible
                 if (ageDay > 388)
                     ageDay = 388;
-                if (ageDay < 0)
-                    ageDay = -1;
                 return (ageDay)
             }
         }
         catch (error) {
             console.log(error);
-            return -2;
+            return "error";
         }
-        return -2;
+        return "error";
     },
 
     returnMonth: function (req, response) {
@@ -41,8 +40,9 @@ module.exports = {
         var ageWeek = parseInt(ageDays / 7, 10);
         var ageMonth = parseInt(ageDays / 30.5, 10);
         // Cas de futur accouchement !
-        if (ageDays < 0) {
+        if (ageDays !== "error" && ageDays < 0) {
             var time = (-ageMonth) + " mois";
+            console.log(time, ageWeek, ageMonth, ageDays)
             if (ageMonth >= -2)
                 time = parseInt(ageDays / -7, 10) + " semaine(s)";
             response.json({
@@ -52,7 +52,7 @@ module.exports = {
                     "timebeforebirth": time
                 }
             });
-        } else
+        } else if (ageDays !== "error")
             response.json({
                 status: 200,
                 "set_attributes": {

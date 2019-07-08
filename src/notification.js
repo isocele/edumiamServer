@@ -50,7 +50,7 @@ module.exports = {
         var ageDay = age.findAge(request.query.babybirth);
 
         // var ageDay = request.query.babybirth;
-        if (ageDay === -2)
+        if (ageDay === "error")
             err.ageError(response);
         else {
             let allData = await sheets.getSheets('1UKv3jbA6reYFcbDoAPOj6SbdYLINQVNL8arUHXnRR0U');
