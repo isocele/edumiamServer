@@ -43,7 +43,7 @@ app.get('/api/notif', (request, response) => {
 
     // Affiche les favoris présent sur Hubspot directement sur Chatfuel
     .get('/api/favoris/draw', (request, response) => {
-        console.log("!-- Requéte pour affciher les favoris");
+        console.log("!-- Requéte pour afficher les favoris");
         favoris.drawFavorisRoute(request, response, requestOptions);
     })
 
@@ -59,7 +59,7 @@ app.get('/api/notif', (request, response) => {
     })
 
     .get('/api/question', (request, response) => {
-        console.log("!-- Requéte pour enregistré une question");
+        console.log("!-- Requéte pour enregistrer une question");
         question.createQuestion(request, response, requestOptions);
     })
 

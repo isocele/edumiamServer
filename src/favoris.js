@@ -167,22 +167,6 @@ async function checkDelete(req, res) {
     });
 }
 
-function senddefaultfavoris(res) {
-    response.json({
-        "messages": [
-            {
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "generic",
-                        "elements": []
-                    }
-                }
-            }
-        ]
-    });
-}
-
 module.exports = {
 
     addFavorisRoute: async function (req, response) {
@@ -204,6 +188,7 @@ module.exports = {
 
     deleteFavorisRoute: async function (req, res) {
         const result = await checkDelete(req, res);
+        console.log(result);
 
         res.json(result);
     },
