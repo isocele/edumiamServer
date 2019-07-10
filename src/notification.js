@@ -57,8 +57,6 @@ module.exports = {
             if (ageDay < -1)
                 ageDay = -1;
             let pertinentData = sheets.fetchData(ageDay, allData);
-            console.log(ageDay);
-            console.log(pertinentData);
             if (pertinentData === -1)
                 err.dayError(response, ageDay);
             else if (pertinentData.state && pertinentData.state !== " ") {

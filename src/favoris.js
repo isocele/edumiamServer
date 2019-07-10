@@ -125,11 +125,11 @@ async function drawFavoris(req, response) {
             } else {
                 console.log("erreur : Mauvais format ?");
                 console.log(favoris[i].substring(0, favoris[i].search(':')));
+                return -1
             }
         }
         return 0
     }
-//    error.favorisError(response);
     return -1
 }
 
@@ -167,6 +167,22 @@ async function checkDelete(req, res) {
     });
 }
 
+function senddefaultfavoris(res) {
+    response.json({
+        "messages": [
+            {
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "generic",
+                        "elements": []
+                    }
+                }
+            }
+        ]
+    });
+}
+
 module.exports = {
 
     addFavorisRoute: async function (req, response) {
@@ -181,6 +197,9 @@ module.exports = {
 
         if (result !== -1)
             response.json(gallerie);
+        else
+            error.favorisError(response);
+
     },
 
     deleteFavorisRoute: async function (req, res) {

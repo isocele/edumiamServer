@@ -38,7 +38,7 @@ module.exports = {
     returnMonth: function (req, response) {
         var ageDays = this.findAge(req.query.babybirth);
         var ageWeek = parseInt(ageDays / 7, 10);
-        var ageMonth = parseInt(ageDays / 30.5, 10);
+        var ageMonth = Math.round(ageDays / 30.5);
         // Cas de futur accouchement !
         if (ageDays !== "error" && ageDays < 0) {
             var time = (-ageMonth) + " mois";
