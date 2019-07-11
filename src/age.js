@@ -1,3 +1,5 @@
+var nbDay = 0;
+
 module.exports = {
 
     findAge: function (birth) {
@@ -23,6 +25,7 @@ module.exports = {
                 var ageDay = (date.getUTCFullYear() - year) * 365 + ((-parseInt(month, 10) + date.getUTCMonth() + 1) * 30.5) + (date.getUTCDate() - day)
                 ageDay = parseInt(ageDay, 10) + 1;
                 // Age de la dernière notification disponible
+                nbDay = ageDay;
                 if (ageDay > 388)
                     ageDay = 388;
                 return (ageDay)
@@ -36,7 +39,8 @@ module.exports = {
     },
 
     returnMonth: function (req, response) {
-        var ageDays = this.findAge(req.query.babybirth);
+        this.findAge(req.query.babybirth)
+        var ageDays = nbDay;
         var ageWeek = parseInt(ageDays / 7, 10);
         var ageMonth = Math.round(ageDays / 30.5);
         // Cas de futur accouchement !

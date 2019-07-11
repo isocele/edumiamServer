@@ -23,12 +23,14 @@ function addButtons(rep, data) {
         }
     }
     if (data.favori === 'add')
+    // TODO URL en dur ! passer sur Edumiam.com
         buttons.push({
             "type": "json_plugin_url",
             "title": "Sauvegarder",
             "url": "http://52.14.42.174:8080/api/favoris/new?vid={{vid}}&push=" + data.id
         });
     else if (data.favori === 'delete')
+        // TODO URL en dur ! passer sur Edumiam.com
         buttons.push({
             "type": "json_plugin_url",
             "title": "Supprimer le favori",
