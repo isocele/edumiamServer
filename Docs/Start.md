@@ -11,8 +11,8 @@ Commençons par le plus courant comment mettre à jour le serveur :
 
 #### 1. Se connecter à l'instance AWS
 - Installer la clef ssh
-Rendez vous sur le drive de l'equipe Edumiam puis aller dans "IT Dev tech". Vous y trouverez le fichier "AWSsskey.dem", téléchargez-le et mettez le à un endroit sur (que vous étes capable de retrouver facilement). 
-- Ouvrir un terminal
+Rendez vous sur le drive de l'equipe Edumiam puis aller dans "Chatbot_V2/Clefs". Vous y trouverez le fichier "AWSsskey.dem", téléchargez-le et mettez le à un endroit sur (que vous étes capable de retrouver facilement). 
+- Ouvrir un terminal (touche windows puis tapez "cmd")
 - Entrer la commande qui suit
 
       ssh -i /<chemin>/AWSsshkey.pem ubuntu@<DNS-public>
