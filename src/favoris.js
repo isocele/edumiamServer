@@ -16,7 +16,7 @@ function createFavoris(req) {
 }
 
 // Permet de checker avant d'ajouter un nouveau favoris si il est deja enregistré
-function checkdouble(fav, add) {
+function checkDouble(fav, add) {
     var arrfav = parse.strToArray(fav);
 
     for (let i = 0; i < arrfav.length; i++) {
@@ -45,17 +45,25 @@ function deleteFavoris(fav, del) {
 async function newFavoris(req, res) {
     const url = 'https://api.hubapi.com/contacts/v1/contact/vid/' + req.query.vid + "/profile";
     var favoris = await hub.hubspotApi(req, url, {}, 'GET', res);
-    //console.log(favoris);
 
     if (favoris === -1)
         return (-1);
     var fav = {};
     if (favoris.properties.favoris && favoris.properties.favoris.value) {
-        if (!checkdouble(favoris.properties.favoris.value, req.query.push))
+        // Vérifie si ce favori a déjà été enregistré et block les doublons
+        if (!checkDouble(favoris.properties.favoris.value, req.query.push))
             return ({
                 "success": 406,
                 "messages": [
                     {"text": "Vous avez déjà enregistré ce favori"},
+                ]
+            });
+        // Limite le nombre de favoris à 10
+        else if (parse.strToArray(favoris.properties.favoris.value).length > 9)
+            return ({
+                "success": 406,
+                "messages": [
+                    {"text": "Vous avez déjà 10 favoris"},
                 ]
             });
         else
@@ -142,7 +150,7 @@ async function checkDelete(req, res) {
 
     if (info !== -1) {
         if (info.properties.favoris && info.properties.favoris.value) {
-            if (checkdouble(info.properties.favoris.value, req.query.push)) {
+            if (checkDouble(info.properties.favoris.value, req.query.push)) {
                 status = 406;
                 message = "Vous n'avez pas enregistré ce favoris";
             } else {
