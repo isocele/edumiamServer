@@ -153,30 +153,30 @@ it('New Favoris', async function (done) {
     });
     request(localEndpoint + 'api/favoris/new?vid=' + vid + '&push=4', async function (error, response, body) {
         expect(response.statusCode).to.equal(200);
-        // console.log(6, JSON.parse(body).success)
+        console.log(6, JSON.parse(body).success)
         // expect(JSON.parse(body).success).to.equal(200);
     });
     request(localEndpoint + 'api/favoris/new?vid=' + vid + '&push=5', async function (error, response, body) {
         expect(response.statusCode).to.equal(200);
-        // console.log(7, JSON.parse(body).success)
+        console.log(7, JSON.parse(body))
         // expect(JSON.parse(body).success).to.equal(200);
     });
     done()
 });
 
-/*
 it('10 favoris + duplicate favori', async function (done) {
     request(localEndpoint + 'api/favoris/new?vid=' + vid + '&push=8', async function (error, response, body) {
         expect(response.statusCode).to.equal(200);
+        console.log(10, JSON.parse(body).success)
         expect(JSON.parse(body).success).to.equal(406);
     });
     request(localEndpoint + 'api/favoris/new?vid=' + vid + '&push=R3', async function (error, response, body) {
         expect(response.statusCode).to.equal(200);
+        console.log(11, JSON.parse(body).success)
         expect(JSON.parse(body).success).to.equal(406);
     });
     done()
 });
-*/
 
 it('delete Favoris', async function (done) {
     request(localEndpoint + 'api/favoris/delete?vid=' + vid + '&push=R1', async function (error, response, body) {
@@ -205,6 +205,7 @@ it('delete Favoris', async function (done) {
     });
     request(localEndpoint + 'api/favoris/delete?vid=' + vid + '&push=7', async function (error, response, body) {
         expect(response.statusCode).to.equal(200);
+        console.log("del", JSON.parse(body).success)
     });
     request(localEndpoint + 'api/favoris/delete?vid=' + vid + '&push=8', async function (error, response, body) {
         expect(response.statusCode).to.equal(200);

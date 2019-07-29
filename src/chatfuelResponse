@@ -1,12 +1,12 @@
 const parse = require('./parsingTools.js');
 
-function addButtons(rep, data) {
+function addButtons(rep, data, from) {
     var buttons = [];
 
     if (data.buttontitle) {
         for (let i = 0; i < rep[0].length; i++) {
             if (rep[1][i] === "block"){
-                let block_names = []
+                let block_names = [];
                 block_names.push(rep[2][i]);
                 buttons.push({
                     "type": "show_block",
@@ -22,14 +22,14 @@ function addButtons(rep, data) {
             }
         }
     }
-    if (data.favori === 'add')
+    if (data.favori && from === "standard")
     // TODO URL en dur ! passer sur Edumiam.com
         buttons.push({
             "type": "json_plugin_url",
             "title": "Sauvegarder",
             "url": "http://52.14.42.174:8080/api/favoris/new?vid={{vid}}&push=" + data.id
         });
-    else if (data.favori === 'delete')
+    else if (data.favori && from === 'favoris')
         // TODO URL en dur ! passer sur Edumiam.com
         buttons.push({
             "type": "json_plugin_url",
@@ -50,8 +50,8 @@ function parseResponse(titles, types, urls) {
 
 module.exports = {
 
-    createButtons(but) {
-        return addButtons(parseResponse(but.buttontitle, but.buttontype, but.buttonuse), but)
+    createButtons(but, from) {
+        return addButtons(parseResponse(but.buttontitle, but.buttontype, but.buttonuse), but, from)
     },
 
 

@@ -11,7 +11,19 @@ const rep = require('./createReplie.js');
 async function createResponse(pertinentData, requestOptions, response, next) {
 
     var jsondata;
-    if (!pertinentData.blockname || pertinentData.blockname === " ") {
+    /*if (pertinentData.idcontent && pertinentData.idcontent !== " ") {
+        let allData = await sheets.getSheets('1YF2SIYmIQgSNKl_WLzVa2dM5imDD0S4byTthX_QPzC4');
+        pertinentData = sheets.fetchData(pertinentData.idcontent, allData, 'standard');
+        console.log(pertinentData)
+        let replies = await rep.createReplie(pertinentData);
+        jsondata = {
+            "messages":
+            replies,
+            "set_attributes": {
+                "next": next,
+            }
+        };
+    } else */if (!pertinentData.blockname || pertinentData.blockname === " ") {
         let replies = await rep.createReplie(pertinentData);
         jsondata = {
             "messages":
@@ -56,7 +68,7 @@ module.exports = {
             let allData = await sheets.getSheets('1UKv3jbA6reYFcbDoAPOj6SbdYLINQVNL8arUHXnRR0U');
             if (ageDay < -1)
                 ageDay = -1;
-            let pertinentData = sheets.fetchData(ageDay, allData);
+            let pertinentData = sheets.fetchData(ageDay, allData, 'notification');
             if (pertinentData === -1)
                 err.dayError(response, ageDay);
             else if (pertinentData.state && pertinentData.state !== " ") {
