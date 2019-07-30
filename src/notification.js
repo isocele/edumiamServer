@@ -8,25 +8,30 @@ const rep = require('./createReplie.js');
 
 
 // Affiche un block personnalisé ou un block existant dans Chatfuel
-async function createResponse(pertinentData, requestOptions, response, next) {
-
+async function createResponse(pertinentData, requestOptions, response) {
     var jsondata;
+
     // console.log(pertinentData.idcontent);
-    if (pertinentData.idcontent && pertinentData.idcontent !== " ") {
+    // sauvegarde l'id du block suivant
+    if (pertinentData.idcontent && pertinentData.idcontent !== " ")
         var tmpid = pertinentData.idcontent;
-    }
+    console.log(tmpid);
     if (tmpid || pertinentData.blockstick) {
+        // Prends les info du sheets "Content"
         let allData = await sheets.getSheets('1YF2SIYmIQgSNKl_WLzVa2dM5imDD0S4byTthX_QPzC4');
-        console.log("ui")
+
         var id = tmpid || pertinentData.blockstick;
-        console.log(id);
-        pertinentData = sheets.fetchData(pertinentData.id, allData, 'standard');
+        pertinentData = sheets.fetchData(id, allData, 'standard');
+        console.log(pertinentData);
         let replies = await rep.createReplie(pertinentData);
+        if (!pertinentData.time)
+            id = 0;
         jsondata = {
             "messages":
             replies,
             "set_attributes": {
                 "next": id,
+                "typing": pertinentData.time
             }
         };
     } else if (!pertinentData.blockname || pertinentData.blockname === " ") {
@@ -51,7 +56,7 @@ async function createResponse(pertinentData, requestOptions, response, next) {
             response.json(jsondata);
         });
 }
-
+/*
 function nextNotif(day, data) {
     var i = 0;
 
@@ -60,7 +65,7 @@ function nextNotif(day, data) {
     i++;
     for (; !data[i].state || data[i].state === " "; i++);
     return parseInt(data[i].id);
-}
+}*/
 
 module.exports = {
 
@@ -78,11 +83,11 @@ module.exports = {
             if (pertinentData === -1)
                 err.dayError(response, ageDay);
             else if (pertinentData.state && pertinentData.state !== " ") {
-                if (ageDay === 388)
-                    var next = -1;
-                else
-                    var next = nextNotif(ageDay, allData);
-                createResponse(pertinentData, requestOptions, response, next);
+                // if (ageDay === 388)
+                //     var next = -1;
+                // else
+                //     var next = nextNotif(ageDay, allData);
+                createResponse(pertinentData, requestOptions, response);
             }
             else
                 err.dayError(response, ageDay);

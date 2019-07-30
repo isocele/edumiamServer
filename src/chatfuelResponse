@@ -17,8 +17,8 @@ function addButtons(rep, data, from) {
             } else if (rep[1][i] === "block_content") {
                 buttons.push({
                     "type": "json_plugin_url",
-                    "title": "Sauvegarder",
-                    "url": "http://localhost:8090/api/content?content=" + rep[2][i]
+                    "title": rep[0][i],
+                    "url": "http://52.14.42.174:8080/api/content?content=" + rep[2][i]
                 });
             } else {
                 buttons.push({
