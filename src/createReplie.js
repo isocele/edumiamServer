@@ -94,7 +94,6 @@ module.exports = {
         else if (data.maintype === "image")
             createMedia(data);
         else {
-
             await createGallerie(data);
             return (replie[0].gallerie.messages)
         }

@@ -30,10 +30,9 @@ module.exports = {
         // Transforme l'id en string pour être sûr de comment la manipuler
         id = "" + id;
         for (let i = 0; i < data.length; i++) {
-            // console.log(id, data[i].idcontent, idname)
             if (idname === 'notification' && data[i].id === id)
                 return (data[i]);
-            if (idname === 'standard' && data[i].contentid === id)
+            if (idname === 'standard' && data[i].id === id)
                 return (data[i])
         }
         // Gestion des exeptions plus vieux ou plus jeune que prévus

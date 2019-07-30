@@ -23,13 +23,19 @@ err.initError(requestOptions);
 
 // Toutes les routes pour les différentes requètes
 
-// Retourne un block affiché directement sur chatfuel
+// Retourne un block de notif et l'affiche directement sur chatfuel
 app.get('/api/notif', (request, response) => {
     console.log("!-- Requéte pour trouver la notification adéquate");
     notif.spreadSheetRoute(request, response, requestOptions);
 })
 
-// Peut créer ou mettre à jour un profil sur Hubspot
+    // Retourne un block ne venant pas d'une notif
+    .get('/api/content', (request, response) => {
+        console.log("!-- Requéte pour afficher du contenu");
+        notif.contentRoute(request, response, requestOptions);
+    })
+
+    // Peut créer ou mettre à jour un profil sur Hubspot
     .get('/api/user', (request, response) => {
         console.log("!-- Requéte pour mettre à jour l'utilisateur");
         hubspot.hubspotRoute(request, response, requestOptions);
@@ -58,6 +64,7 @@ app.get('/api/notif', (request, response) => {
         age.returnMonth(request, response, requestOptions);
     })
 
+    // Envoie toutes les messages de qui trigger le defaut méssage de chatfuel dans un sheets
     .get('/api/question', (request, response) => {
         console.log("!-- Requéte pour enregistrer une question");
         question.createQuestion(request, response, requestOptions);
@@ -69,7 +76,7 @@ app.get('/api/notif', (request, response) => {
         scrap.scrapfileRoute(response, requestOptions);
     });
 
-const PORT = 8090;
+const PORT = 8080;
 
 // ... Tout le code de gestion des routes (app.get) se trouve au-dessus
 
