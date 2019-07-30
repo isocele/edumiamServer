@@ -13,7 +13,7 @@ async function createResponse(pertinentData, requestOptions, response) {
 
     // console.log(pertinentData.idcontent);
     // sauvegarde l'id du block suivant
-    if (pertinentData.idcontent && pertinentData.idcontent !== " ")
+/*    if (pertinentData.idcontent && pertinentData.idcontent !== " ")
         var tmpid = pertinentData.idcontent;
     console.log(tmpid);
     if (tmpid || pertinentData.blockstick) {
@@ -34,7 +34,7 @@ async function createResponse(pertinentData, requestOptions, response) {
                 "typing": pertinentData.time
             }
         };
-    } else if (!pertinentData.blockname || pertinentData.blockname === " ") {
+    } else */if (!pertinentData.blockname || pertinentData.blockname === " ") {
         let replies = await rep.createReplie(pertinentData);
         jsondata = {
             "messages":
