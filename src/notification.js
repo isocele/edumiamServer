@@ -13,16 +13,14 @@ async function createResponse(pertinentData, requestOptions, response) {
 
     // console.log(pertinentData.idcontent);
     // sauvegarde l'id du block suivant
-/*    if (pertinentData.idcontent && pertinentData.idcontent !== " ")
+    if (pertinentData.idcontent && pertinentData.idcontent !== " ")
         var tmpid = pertinentData.idcontent;
-    console.log(tmpid);
     if (tmpid || pertinentData.blockstick) {
         // Prends les info du sheets "Content"
         let allData = await sheets.getSheets('1YF2SIYmIQgSNKl_WLzVa2dM5imDD0S4byTthX_QPzC4');
 
         var id = tmpid || pertinentData.blockstick;
         pertinentData = sheets.fetchData(id, allData, 'standard');
-        console.log(pertinentData);
         let replies = await rep.createReplie(pertinentData);
         if (!pertinentData.time)
             id = 0;
@@ -34,7 +32,7 @@ async function createResponse(pertinentData, requestOptions, response) {
                 "typing": pertinentData.time
             }
         };
-    } else */if (!pertinentData.blockname || pertinentData.blockname === " ") {
+    } else if (!pertinentData.blockname || pertinentData.blockname === " ") {
         let replies = await rep.createReplie(pertinentData);
         jsondata = {
             "messages":
@@ -105,7 +103,7 @@ module.exports = {
             createResponse(pertinentData, requestOptions, response, "kkk");
         }
         else
-            err.dayError(response, ageDay);
+            err.dayError(response, pertinentData.id);
     }
 };
 

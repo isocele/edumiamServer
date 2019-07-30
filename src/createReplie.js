@@ -9,7 +9,8 @@ function createText(data) {
     var quick_replies = {};
     var buttons = {};
 
-    chatfuel.addTitle(replie, data.title);
+    if (data.title)
+        chatfuel.addTitle(replie, data.title);
     if (data.quickreplies) {
         quick_replies = chatfuel.addQuickReplie(parseResponse(data.quickreplies, data.quickrepliesurl));
         replie.push({

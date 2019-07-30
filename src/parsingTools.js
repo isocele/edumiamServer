@@ -12,7 +12,6 @@ module.exports = {
 
     isitDate: function (birth) {
         // filtre les formats de date + les dates invalides
-        console.log(birth[3] <= 1);
         return ((birth[0] >= 0 && birth[0] < 3) || (birth[0] == 3 && (birth[1] == 0 || birth[1] == 1))) &&
             birth[1] >= 0 && birth[2] === '.' &&
             birth[3] >= 0 && birth[3] <= 1 && birth[4] >= 0 && birth[4] <= 2 && birth[5] === '.' &&
