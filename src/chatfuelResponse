@@ -3,9 +3,10 @@ const parse = require('./parsingTools.js');
 function addButtons(rep, data, from) {
     var buttons = [];
 
+    // console.log(rep, data);
     if (data.buttontitle) {
         for (let i = 0; i < rep[0].length; i++) {
-            if (rep[1][i] === "block"){
+            if (rep[1][i] === "block") {
                 let block_names = [];
                 block_names.push(rep[2][i]);
                 buttons.push({
@@ -13,11 +14,17 @@ function addButtons(rep, data, from) {
                     "title": rep[0][i],
                     block_names
                 })
+            } else if (rep[1][i] === "block_content") {
+                buttons.push({
+                    "type": "json_plugin_url",
+                    "title": "Sauvegarder",
+                    "url": "http://localhost:8090/api/content?content=" + rep[2][i]
+                });
             } else {
                 buttons.push({
                     "type": rep[1][i],
                     "title": rep[0][i],
-                    "url" : rep[2][i]
+                    "url": rep[2][i]
                 })
             }
         }
@@ -30,7 +37,7 @@ function addButtons(rep, data, from) {
             "url": "http://52.14.42.174:8080/api/favoris/new?vid={{vid}}&push=" + data.id
         });
     else if (data.favori && from === 'favoris')
-        // TODO URL en dur ! passer sur Edumiam.com
+    // TODO URL en dur ! passer sur Edumiam.com
         buttons.push({
             "type": "json_plugin_url",
             "title": "Supprimer le favori",

@@ -11,32 +11,38 @@ const rep = require('./createReplie.js');
 async function createResponse(pertinentData, requestOptions, response, next) {
 
     var jsondata;
-    /*if (pertinentData.idcontent && pertinentData.idcontent !== " ") {
+    // console.log(pertinentData.idcontent);
+    if (pertinentData.idcontent && pertinentData.idcontent !== " ") {
+        var tmpid = pertinentData.idcontent;
+    }
+    if (tmpid || pertinentData.blockstick) {
         let allData = await sheets.getSheets('1YF2SIYmIQgSNKl_WLzVa2dM5imDD0S4byTthX_QPzC4');
-        pertinentData = sheets.fetchData(pertinentData.idcontent, allData, 'standard');
-        console.log(pertinentData)
+        console.log("ui")
+        var id = tmpid || pertinentData.blockstick;
+        console.log(id);
+        pertinentData = sheets.fetchData(pertinentData.id, allData, 'standard');
         let replies = await rep.createReplie(pertinentData);
         jsondata = {
             "messages":
             replies,
             "set_attributes": {
-                "next": next,
+                "next": id,
             }
         };
-    } else */if (!pertinentData.blockname || pertinentData.blockname === " ") {
+    } else if (!pertinentData.blockname || pertinentData.blockname === " ") {
         let replies = await rep.createReplie(pertinentData);
         jsondata = {
             "messages":
             replies,
             "set_attributes": {
-                "next": next,
+                "next": 0,
             }
         };
     } else {
         jsondata = {
             "redirect_to_blocks": [pertinentData.blockname],
             "set_attributes": {
-                "next": next,
+                "next": 0,
             }
         };
     }
@@ -81,6 +87,20 @@ module.exports = {
             else
                 err.dayError(response, ageDay);
         }
+    },
+
+    contentRoute: async function (request, response, requestOptions) {
+        let allData = await sheets.getSheets('1YF2SIYmIQgSNKl_WLzVa2dM5imDD0S4byTthX_QPzC4');
+        let pertinentData = sheets.fetchData(request.query.content, allData, 'notification');
+
+        // console.log(pertinentData);
+        if (pertinentData === -1)
+            err.dayError(response, );
+        else if (pertinentData.state && pertinentData.state !== " ") {
+            createResponse(pertinentData, requestOptions, response, "kkk");
+        }
+        else
+            err.dayError(response, ageDay);
     }
 };
 
