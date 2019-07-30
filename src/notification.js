@@ -8,7 +8,7 @@ const rep = require('./createReplie.js');
 
 
 // Affiche un block personnalisé ou un block existant dans Chatfuel
-async function createResponse(pertinentData, requestOptions, response) {
+async function createResponse(pertinentData, requestOptions, response, state) {
     var jsondata;
 
     // console.log(pertinentData.idcontent);
@@ -17,10 +17,11 @@ async function createResponse(pertinentData, requestOptions, response) {
         var tmpid = pertinentData.idcontent;
     if (tmpid || pertinentData.blockstick) {
         // Prends les info du sheets "Content"
-        let allData = await sheets.getSheets('1YF2SIYmIQgSNKl_WLzVa2dM5imDD0S4byTthX_QPzC4');
-
         var id = tmpid || pertinentData.blockstick;
-        pertinentData = sheets.fetchData(id, allData, 'standard');
+        if (!state) {
+            let allData = await sheets.getSheets('1YF2SIYmIQgSNKl_WLzVa2dM5imDD0S4byTthX_QPzC4');
+            pertinentData = sheets.fetchData(id, allData, 'standard');
+        }
         let replies = await rep.createReplie(pertinentData);
         if (!pertinentData.time)
             id = 0;
@@ -100,7 +101,7 @@ module.exports = {
         if (pertinentData === -1)
             err.dayError(response, );
         else if (pertinentData.state && pertinentData.state !== " ") {
-            createResponse(pertinentData, requestOptions, response, "kkk");
+            createResponse(pertinentData, requestOptions, response, "final");
         }
         else
             err.dayError(response, pertinentData.id);
