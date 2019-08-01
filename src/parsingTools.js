@@ -1,12 +1,14 @@
+/*
+Ce fichier à des petites fonctions pour permettre un parsing plus performants pour le reste du projet
+ */
+
 module.exports = {
 
+    // Verifie grossièrement si la string ressemble à un email
     isitMail: function (mail) {
-        if (mail.search('@') !== -1) {
-            if (mail.search('@') < mail.search('.')) {
+        if (mail.search('@') !== -1)
+            if (mail.search('@') < mail.search('.'))
                 return true
-            }
-        }
-
         return false
     },
 
@@ -19,6 +21,7 @@ module.exports = {
             (birth[0] >= 1 || birth[1] >= 1) && (birth[3] >= 1 || birth[4] >= 1);
     },
 
+    // Prends une string et renvoie son nombre de ligne
     countLine: function (str) {
         var ret = 1;
         for (let i = 0; i < str.length; i++)
@@ -28,6 +31,7 @@ module.exports = {
         return (ret);
     },
 
+    // Prends une string et la renvoie sous forme de tableau découpé à chaque saut de ligne
     strToArray: function (str) {
         var ret = [];
         var jbis = 0;

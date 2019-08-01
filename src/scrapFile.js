@@ -1,3 +1,6 @@
+/*
+À servis pour les exportations de chatfuel n'a plus beaucoup d'utilité.
+*/
 const {google} = require('googleapis');
 var fs = require('fs');
 const requestPromise = require('request-promise');

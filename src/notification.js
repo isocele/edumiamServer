@@ -1,6 +1,9 @@
+/*
+Ce fichier gére les requètes d'affichage de block
+*/
+
 const requestPromise = require('request-promise');
 const sheets = require('./sheets');
-var methods = {};
 
 const age = require('./age.js');
 const err = require('./errorHandle.js');
@@ -22,7 +25,7 @@ async function createResponse(pertinentData, requestOptions, response, state) {
         var id = tmpid || pertinentData.blockstick;
         if (!state) {
             let allData = await sheets.getSheets('1YF2SIYmIQgSNKl_WLzVa2dM5imDD0S4byTthX_QPzC4');
-            pertinentData = sheets.fetchData(id, allData, 'standard');
+            pertinentData = await sheets.fetchData(id, allData, 'standard');
         }
         let replies = await rep.createReplie(pertinentData);
 

@@ -1,16 +1,20 @@
+/*
+Ce fichier s'occupe des requête de création de compte sur Hubspot/édition ainsi que d'une partie des favoris
+*/
 const requestPromise = require('request-promise');
-const json = require('../assets/countrydata.json'); //(with path)
+const json = require('../assets/countrydata.json');
 const parse = require('./parsingTools.js');
 const error = require('./errorHandle.js');
 const age = require('./age.js');
 
-//http://isocele-edumiamserver-3.glitch.me/api/user?lastname={{last name}}&firstname={{first name}}&email={{email}}&vid={{vid}}&Country={{locale}}&Gender={{gender}}&Chatfuel_user_id={{chatfuel user id}}&Chatbot_subscription={{abonné}}&City={{city}}&Postal_code={{zip}}&Street_address={{address}}
-
+// Necessaire pour modifier les contact Hubspot via l'API
 const apikey = "2e27342c-a4bb-4b3c-a1fa-30f8b9b0f702";
 const endpoint = "contacts/v1/contact";
 
+// Une global qui detient toutes les valeurs ajouter au compte Hubspot sous format JSON
 var properties = [];
 
+// Créer toutes les valeurs nécessaire à la création d'un compte (notament les valeurs fixes ou au format diff de chatfuel)
 function createProperties(req) {
     for (let item in properties)
         delete properties[item];
@@ -30,7 +34,7 @@ function createProperties(req) {
                 "property": item,
                 "value": "Chatfuel :" + req.query[item]
             });
-        } else if (item === "Country") {
+        } else if (item === "Country") { // Convertis les valeurs des localité de chatfuel en designation classique ex: fr_FR = France
             properties.push({
                 "property": item,
                 "value": json[req.query[item].substring(3, 5)]
@@ -47,11 +51,11 @@ function createProperties(req) {
 
 module.exports = {
 
+    // Fais la requête à Hubspot
     hubspotApi: async function (req, url, properties, method, response) {
         var ret;
 
         try {
-            // console.log(data)
             ret = await requestPromise({
                 method: method,
                 url: url,
@@ -72,16 +76,20 @@ module.exports = {
         return ret
     },
 
+    // Gère les requêtes concernant Hubspot et créer la réponse en json
     hubspotRoute: async function (request, response, requestOptions) {
         var url = '';
 
         if (request.query.email && !parse.isitMail(request.query.email))
                 return error.emailError(response);
+
+        // Nouveau contact => Création du contact
         if (!request.query.vid)
             url = 'https://api.hubapi.com/' + endpoint;
-        else
+        else // Ancien Contact => Mise à jour de ses infos
             url = 'https://api.hubapi.com/' + endpoint + "/vid/" + request.query.vid + "/profile";
 
+        // Requête à Hubspot; dans un try au cas où l'API de Hubspot est down / ma requête est mauvaise
         try {
             var valid = createProperties(request);
             if (valid)

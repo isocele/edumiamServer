@@ -1,3 +1,7 @@
+/*
+Ce fichier va chercher les information dans les google sheets et tire l'information pertinente
+ */
+
 const GoogleSpreadsheet = require('google-spreadsheet');
 const creds = require('../client_secret.json');
 const delay = require('delay');

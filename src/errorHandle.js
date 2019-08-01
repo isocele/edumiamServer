@@ -1,3 +1,7 @@
+/*
+Ce fichier gère une grande partie des retours d'erreurs
+ */
+
 const requestPromise = require('request-promise');
 var requestOptions = {};
 

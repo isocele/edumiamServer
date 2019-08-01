@@ -1,19 +1,14 @@
+/*
+Ce fichier s'occupe de toutes les requêtes concernant les favoris mais aussi lors de la création de gallerie standard
+ */
 const parse = require('./parsingTools.js');
 const sheets = require('./sheets');
 const chatfuel = require('./chatfuelResponse');
 const hub = require('./hubspot');
 const error = require('./errorHandle');
 
-
+// Contenus de la réponse lors de la requête de l'affichage des favoris ou de gallerie stadard
 var gallerie = {};
-
-// Fais la syntaxe à sauvegarder dans Hubspot pour etre capable de le lire dans favoris.js
-function createFavoris(req) {
-    if (req.query.push)
-        return ("push: " + req.query.push);
-    if (req.query.block)
-        return ("block: " + req.query.block)
-}
 
 // Permet de checker avant d'ajouter un nouveau favoris si il est deja enregistré
 function checkDouble(fav, add) {
@@ -37,8 +32,16 @@ function deleteFavoris(fav, del) {
             newfav += arrfav[i].toString() + '\n';
     }
 
-    // Renvoit sans le dernier '\n'
+    // Supprime le dernier '\n'
     return (newfav.substring(0, newfav.length - 1));
+}
+
+// Créer la syntaxe pour Hubspot pour permettre un parsing facile
+function createFavoris(req) {
+    if (req.query.push)
+        return ("push: " + req.query.push);
+    if (req.query.block)
+        return ("block: " + req.query.block)
 }
 
 // Va aller chercher les anciens favoris et en ajouter un nouveau si possible pour enfin mettre le profil à jour

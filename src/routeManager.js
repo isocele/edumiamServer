@@ -1,3 +1,7 @@
+/*
+Ce fichier gére toutes les routes des API que le serveur propose ainsi que l'adresse du serveur.
+*/
+
 const express = require('express');
 const app = express();
 
@@ -53,33 +57,33 @@ app.get('/api/notif', (request, response) => {
         favoris.drawFavorisRoute(request, response, requestOptions);
     })
 
+    // Supprime un favoris des informations du contacts dans Hubspot
     .get('/api/favoris/delete', (request, response) => {
         console.log("!-- Requéte pour supprimer un favoris");
         favoris.deleteFavorisRoute(request, response, requestOptions);
     })
 
-    // Créer ou maj le "mois" sur Chatfuel (nbr de mois de l'enfant)
+    // Créer ou maj le "mois" sur Chatfuel (nbr de mois de l'enfant) à partir de la date
     .get('/api/getmonth', (request, response) => {
         console.log("!-- Requéte pour obtenir le mois de l'enfant");
         age.returnMonth(request, response, requestOptions);
     })
 
-    // Envoie toutes les messages de qui trigger le defaut méssage de chatfuel dans un sheets
+    // Envoie tous les messages passant par le default message de chatfuel dans un google sheets
     .get('/api/question', (request, response) => {
         console.log("!-- Requéte pour enregistrer une question");
         question.createQuestion(request, response, requestOptions);
-    })
+    });
 
-    // Parse le fichier ./assets/chatbot_conv
-    .get('/scrap', (request, response) => {
+    // Parse le fichier ./assets/chatbot_conv -> N'est plus utilisé !!
+/*    .get('/scrap', (request, response) => {
        console.log("!-- Requéte pour réécrire un fichier sur un sheets");
         scrap.scrapfileRoute(response, requestOptions);
-    });
+    });*/
 
 const PORT = 8080;
 
-// ... Tout le code de gestion des routes (app.get) se trouve au-dessus
-
+// Message d'erreur pour les mauvaises requêtes via navigateur
 app.use(function (req, res, next) {
     res.setHeader('Content-Type', 'text/plain');
     res.status(404).send('Page introuvable !');

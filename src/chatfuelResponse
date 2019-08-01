@@ -1,3 +1,7 @@
+/*
+Ce fichier s'occupe de formater les boutons pour les réponses destiné à chatfuel
+ */
+
 const parse = require('./parsingTools.js');
 
 function addButtons(rep, data, from) {

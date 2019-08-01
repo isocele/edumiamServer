@@ -1,3 +1,7 @@
+/*
+Ce fichier créer les corps de texte / image, des réponses sous une syntaxe adapté à chatfuel
+ */
+
 const parse = require('./parsingTools.js');
 const favoris = require('./favoris');
 const sheets = require('./sheets');

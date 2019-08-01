@@ -8,7 +8,7 @@ function writeSheets(req, hour, day) {
     // Pour plus d'info se référer : https://www.twilio.com/blog/2017/03/google-spreadsheets-and-javascriptnode-js.html
     // Se connecte au Google Spreadsheets API.
     let data = doc.useServiceAccountAuth(creds, function (err) {
-        // Obtiens les informations du SpreadSheets
+        // Envoie les informations au Sheets
         doc.addRow(1, {Date: day, heure: hour, prenom: req.query.lastName, nom: req.query.firstName, question: req.query.question, chatfuelID: req.query.userID}, function (err) {
             if (err) {
                 console.log(err);
@@ -21,6 +21,7 @@ function writeSheets(req, hour, day) {
 module.exports = {
 
     createQuestion: function (req) {
+        // Fait une date pour la question
         let date = new Date();
         let hour = date.getHours() + 'h:' + date.getMinutes();
         let day = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
