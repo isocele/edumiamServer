@@ -7,15 +7,17 @@ const err = require('./errorHandle.js');
 const rep = require('./createReplie.js');
 
 
-// Affiche un block personnalisé ou un block existant dans Chatfuel
+// Affiche un block personnalisé avec les infos des sheets ou un block existant dans Chatfuel
 async function createResponse(pertinentData, requestOptions, response, state) {
     var jsondata;
 
-    // console.log(pertinentData.idcontent);
-    // sauvegarde l'id du block suivant
+    // Sauvegarde l'id du block suivant
     if (pertinentData.idcontent && pertinentData.idcontent !== " ")
         var tmpid = pertinentData.idcontent;
+
+    // Créer un block via les infos des google Sheets
     if (tmpid || pertinentData.blockstick) {
+
         // Prends les info du sheets "Content"
         var id = tmpid || pertinentData.blockstick;
         if (!state) {
@@ -23,8 +25,12 @@ async function createResponse(pertinentData, requestOptions, response, state) {
             pertinentData = sheets.fetchData(id, allData, 'standard');
         }
         let replies = await rep.createReplie(pertinentData);
+
+        // Si aucune valeur n'est mis sur time => next doit valoir 0 (chatfuel ne fera pas d'autres requêtes)
         if (!pertinentData.time)
             id = 0;
+
+        // Construit la réponse pour afficher le block via chatfuel
         jsondata = {
             "messages":
             replies,
@@ -35,6 +41,7 @@ async function createResponse(pertinentData, requestOptions, response, state) {
         };
     } else if (!pertinentData.blockname || pertinentData.blockname === " ") {
         let replies = await rep.createReplie(pertinentData);
+        // Construit la réponse pour afficher le block via chatfuel
         jsondata = {
             "messages":
             replies,
@@ -43,6 +50,7 @@ async function createResponse(pertinentData, requestOptions, response, state) {
             }
         };
     } else {
+        // Construit la réponse pour afficher le block via chatfuel
         jsondata = {
             "redirect_to_blocks": [pertinentData.blockname],
             "set_attributes": {
@@ -50,6 +58,8 @@ async function createResponse(pertinentData, requestOptions, response, state) {
             }
         };
     }
+
+    // Envoie la réponse
     requestPromise(requestOptions)
         .then(function () {
             response.json(jsondata);
@@ -68,13 +78,14 @@ function nextNotif(day, data) {
 
 module.exports = {
 
+    // Gére les requêtes pour les notifications
     spreadSheetRoute: async function (request, response, requestOptions) {
         var ageDay = age.findAge(request.query.babybirth);
 
-        // var ageDay = request.query.babybirth;
         if (ageDay === "error")
             err.ageError(response);
         else {
+            // Va chercher les informations du Sheets des notifications
             let allData = await sheets.getSheets('1UKv3jbA6reYFcbDoAPOj6SbdYLINQVNL8arUHXnRR0U');
             if (ageDay < -1)
                 ageDay = -1;
@@ -93,11 +104,12 @@ module.exports = {
         }
     },
 
+    // Gére les requêtes pour afficher du contenus standard
     contentRoute: async function (request, response, requestOptions) {
+        // Va chercher les informations du Sheets des notifications
         let allData = await sheets.getSheets('1YF2SIYmIQgSNKl_WLzVa2dM5imDD0S4byTthX_QPzC4');
         let pertinentData = sheets.fetchData(request.query.content, allData, 'notification');
 
-        // console.log(pertinentData);
         if (pertinentData === -1)
             err.dayError(response, );
         else if (pertinentData.state && pertinentData.state !== " ") {

@@ -3,8 +3,10 @@ const favoris = require('./favoris');
 const sheets = require('./sheets');
 const chatfuel = require('./chatfuelResponse');
 
+// Variable global qui possède la réponse du serveur sous forme json
 var replie = [];
 
+// Permet de créer des blocks text
 function createText(data) {
     var quick_replies = {};
     var buttons = {};
@@ -36,6 +38,7 @@ function createText(data) {
     }
 }
 
+// Permet de créer des blocks galleries
 async function createGallerie(data) {
     var files = parse.strToArray(data.content);
 
@@ -46,31 +49,47 @@ async function createGallerie(data) {
     });
 }
 
+// Permet de créer des blocks avec des images
 function createMedia(data) {
     var subtitle = data.subtitle;
 
+    // Si c'est une image avec un titre il lui faut obligatoirement un sous-titre
+    // Cette feature n'est plus utilisé depuis le 31/07/2019
     if (!subtitle)
         subtitle = " ";
-    replie.push({
-        "attachment": {
-            "type": "template",
-            "payload": {
-                "template_type": "generic",
-                "elements": [
-                    {
-                        "title": data.title,
-                        "image_url": data.content,
-                        "subtitle": subtitle,
-                    }
-                ]
+    if (data.title) {
+        replie.push({
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "generic",
+                    "elements": [
+                        {
+                            "title": data.title,
+                            "image_url": data.content,
+                            "subtitle": subtitle,
+                        }
+                    ]
+                }
             }
-        }
-    });
-    
+        });
+    } else { // Créer le block image simple
+        replie.push({
+            "attachment": {
+                "type": "image",
+                "payload": {
+                    "url": data.content
+                }
+            }
+        });
+    }
+
+    // Ajoute des quick_replie si necessaire
     if (data.quickreplies) {
         var quick_replies = chatfuel.addQuickReplie(parseResponse(data.quickreplies, data.quickrepliesurl));
         replie[replie.length - 1].quick_replies = quick_replies;
     } else if ((data.buttontitle && data.buttontitle !== " ") || (data.favori && data.favori !== " ")) {
+        // Ajoute des boutons si necessaire
         var buttons = chatfuel.createButtons(data);
         replie[replie.length - 1].attachment.payload.elements = [{
             "title": data.title,
