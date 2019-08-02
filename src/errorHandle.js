@@ -67,8 +67,8 @@ module.exports = {
         console.log("204: No Favoris");
         requestPromise(requestOptions)
             .then(function() {
-                response.status(204).json({
-                    status: 204,
+                response.status(401).json({
+                    status: 401,
                     log: "Aucun favoris",
                     "messages": [
                         {"text": "Tu n'as pas encore de Favori ! Pour en ajouter appuis sur les boutons Favoris présents sur certaines fiches."}

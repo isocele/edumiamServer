@@ -163,7 +163,7 @@ async function checkDelete(req, res) {
                     "property": "favoris",
                     "value": favoris
                 }], 'POST', res);
-                status = 406;
+                status = 200;
                 message = "Favoris supprimé";
             }
         } else {

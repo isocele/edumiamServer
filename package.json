@@ -23,8 +23,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "./node_modules/.bin/mocha test/mochaTest.js",
-    "start": "nodemon -L ./src/routeManager.js",
-    "start watch": "nodemon --watch src/ --exec 'node ./src/routeManager.js' -r ts"
+    "start": "nodemon -L src/index.js",
+    "start watch": "nodemon --watch src/ --exec 'node src/index.js' -r ts"
   },
   "author": "",
   "license": "ISC"

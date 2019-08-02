@@ -10,12 +10,18 @@
 
 **Type de données** : `application/json`
 
+**Données nécessaires dans le query :**
+
 ```json
 {
     "babybirth": "[date de naissance]"
 }
 ```
 
+**Exemple de requéte**
+
+    localhost:8080/api/notif?babybirth=28.03.2019
+    
 #### Si aucune notification n'existe pour l'age de l'enfant
 
 ```json

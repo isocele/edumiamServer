@@ -110,12 +110,12 @@ Vous devez vous trouver sur la socket où le serveur tourne dans ce cas passez �
       ubuntu@ip-172-31-32-71:~/edumiamServer$ npm start
       
       > livredor@1.0.0 start /home/ubuntu/edumiamServer
-      > nodemon ./src/routeManager.js
+      > nodemon ./src/index.js
       
       [nodemon] 1.19.0
       [nodemon] to restart at any time, enter `rs`
       [nodemon] watching: *.*
-      [nodemon] starting `node ./src/routeManager.js`
+      [nodemon] starting `node ./src/index.js`
       Your app is listening on port 8080
 
 Il se peut que des messages écris par le serveur soit aussi affichés.
@@ -134,12 +134,12 @@ Si la console affiche :
       ubuntu@ip-172-31-32-71:~/edumiamServer$ npm start
       
       > livredor@1.0.0 start /home/ubuntu/edumiamServer
-      > nodemon ./src/routeManager.js
+      > nodemon ./src/index.js
       
       [nodemon] 1.19.0
       [nodemon] to restart at any time, enter `rs`
       [nodemon] watching: *.*
-      [nodemon] starting `node ./src/routeManager.js`
+      [nodemon] starting `node ./src/index.js`
       events.js:183
             throw er; // Unhandled 'error' event
             ^
@@ -151,7 +151,7 @@ Si la console affiche :
           at listenInCluster (net.js:1408:12)
           at Server.listen (net.js:1492:7)
           at Function.listen (/home/ubuntu/edumiamServer/node_modules/express/lib/application.js:618:24)
-          at Object.<anonymous> (/home/ubuntu/edumiamServer/src/routeManager.js:28:5)
+          at Object.<anonymous> (/home/ubuntu/edumiamServer/src/index.js:28:5)
           at Module._compile (module.js:652:30)
           at Object.Module._extensions..js (module.js:663:10)
           at Module.load (module.js:565:32)
