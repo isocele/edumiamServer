@@ -1,5 +1,7 @@
 ## Favoris
 
+##### Gére les différentes actions possible avec les favoris: ajouter, supprimer et afficher. Les éléments favorisable sont des fiches sous forme de gallerie présent sur le google sheets "Favoris Usable" 
+
 ### Ajouter un favoris
 
 **URL** :  `/favoris/new`

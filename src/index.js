@@ -23,6 +23,7 @@ const requestOptions = {
 
 app.use(express.static('public'));
 
+// Envoie le reqOption au Error Handler
 err.initError(requestOptions);
 
 // Toutes les routes pour les différentes requètes

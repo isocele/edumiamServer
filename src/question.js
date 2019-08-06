@@ -1,6 +1,9 @@
 const GoogleSpreadsheet = require('google-spreadsheet');
+const error = require('./errorHandle.js');
 const creds = require('../client_secret.json');
+
 var SSI = "1cd8Ijy1j8kg5yHRLtECuXsr0JRLxB2iG8WBuyPPwYtw";
+
 
 function writeSheets(req, hour, day) {
 
@@ -20,11 +23,12 @@ function writeSheets(req, hour, day) {
 
 module.exports = {
 
-    createQuestion: function (req) {
+    createQuestion: function (req, res) {
         // Fait une date pour la question
         let date = new Date();
         let hour = date.getHours() + 'h:' + date.getMinutes();
         let day = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
         writeSheets(req, hour, day);
+        error.questionReponse(res);
     }
 };

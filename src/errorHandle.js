@@ -75,5 +75,15 @@ module.exports = {
                     ]
                 });
             });
+    },
+
+    questionReponse: function(response) {
+        requestPromise(requestOptions)
+            .then(function() {
+                response.status(200).json({
+                    status: 200,
+                    log: "Question envoyé au sheet"
+                });
+            });
     }
 };
