@@ -28,11 +28,11 @@ async function createResponse(pertinentData, requestOptions, response, state) {
             pertinentData = await sheets.fetchData(id, allData, 'standard');
         }
         let replies = await rep.createReplie(pertinentData);
-
+        id = pertinentData.blockstick;
         // Si aucune valeur n'est mis sur time => next doit valoir 0 (chatfuel ne fera pas d'autres requêtes)
         if (!pertinentData.time)
             id = 0;
-
+        console.log(pertinentData.time, id)
         // Construit la réponse pour afficher le block via chatfuel
         jsondata = {
             "messages":

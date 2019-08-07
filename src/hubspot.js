@@ -20,6 +20,7 @@ function createProperties(req) {
         delete properties[item];
     properties = [];
 
+    // Parse tout le query et transforme certain elmt pour une syntaxe plus compréhensible
     for (let item in req.query) {
         if (item === "babybirth")
             if (age.findAge(req.query[item]) === "error")
@@ -69,8 +70,8 @@ module.exports = {
                 json: true
             });
         } catch (err) {
-            error.requestError(response, err.error.message);
-            console.log(err.error);
+            // error.requestError(response, err.error.message);
+            console.log(err.message);
             return -1
         }
         return ret

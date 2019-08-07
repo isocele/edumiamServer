@@ -117,21 +117,20 @@ it('Account update', async function (done) {
         expect(response.statusCode).to.equal(200);
 
     });
-    request(localEndpoint + 'api/user?vid=0000&babybirth=01.01.2019', async function (error, response, body) {
+/*    request(localEndpoint + 'api/user?vid=0000&babybirth=01.01.2019', async function (error, response, body) {
         expect(response.statusCode).to.equal(401);
-
-    });
+    });*/
     done()
 });
 
-it('New Favoris', async function (done) {
+it('Add Favoris', async function (done) {
     this.timeout(1000);
     request(localEndpoint + 'api/favoris/new?vid=' + vid + '&push=R1', async function (error, response, body) {
         expect(response.statusCode).to.equal(200);
         // console.log(1, JSON.parse(body).success)
         // expect(JSON.parse(body).success).to.equal(200);
     });
-    request(localEndpoint + 'api/favoris/new?vid=' + vid + '&push=R2', async function (error, response, body) {
+    request(localEndpoint + 'api/favoris/new?vid=' + vid + '&push=R12', async function (error, response, body) {
         expect(response.statusCode).to.equal(200);
         // console.log(2, JSON.parse(body).success)
         // expect(JSON.parse(body).success).to.equal(200);
@@ -141,30 +140,15 @@ it('New Favoris', async function (done) {
         // console.log(3, JSON.parse(body).success)
         // expect(JSON.parse(body).success).to.equal(200);
     });
-    request(localEndpoint + 'api/favoris/new?vid=' + vid + '&push=2', async function (error, response, body) {
+    request(localEndpoint + 'api/favoris/new?vid=' + vid + '&push=G2', async function (error, response, body) {
         expect(response.statusCode).to.equal(200);
         // console.log(4, JSON.parse(body).success)
-        // expect(JSON.parse(body).success).to.equal(200);
-    });
-    request(localEndpoint + 'api/favoris/new?vid=' + vid + '&push=3', async function (error, response, body) {
-        expect(response.statusCode).to.equal(200);
-        // console.log(5, JSON.parse(body).success)
-        // expect(JSON.parse(body).success).to.equal(200);
-    });
-    request(localEndpoint + 'api/favoris/new?vid=' + vid + '&push=4', async function (error, response, body) {
-        expect(response.statusCode).to.equal(200);
-        console.log(6, JSON.parse(body).success)
-        // expect(JSON.parse(body).success).to.equal(200);
-    });
-    request(localEndpoint + 'api/favoris/new?vid=' + vid + '&push=5', async function (error, response, body) {
-        expect(response.statusCode).to.equal(200);
-        console.log(7, JSON.parse(body))
         // expect(JSON.parse(body).success).to.equal(200);
     });
     done()
 });
 
-it('10 favoris + duplicate favori', async function (done) {
+/*it('10 favoris + duplicate favori', async function (done) {
     request(localEndpoint + 'api/favoris/new?vid=' + vid + '&push=8', async function (error, response, body) {
         expect(response.statusCode).to.equal(200);
         console.log(10, JSON.parse(body).success)
@@ -176,21 +160,21 @@ it('10 favoris + duplicate favori', async function (done) {
         expect(JSON.parse(body).success).to.equal(406);
     });
     done()
-});
+});*/
 
 it('delete Favoris', async function (done) {
     request(localEndpoint + 'api/favoris/delete?vid=' + vid + '&push=R1', async function (error, response, body) {
         expect(response.statusCode).to.equal(200);
     });
-    request(localEndpoint + 'api/favoris/delete?vid=' + vid + '&push=R2', async function (error, response, body) {
+    request(localEndpoint + 'api/favoris/delete?vid=' + vid + '&push=R12', async function (error, response, body) {
         expect(response.statusCode).to.equal(200);
     });
     request(localEndpoint + 'api/favoris/delete?vid=' + vid + '&push=1', async function (error, response, body) {
         expect(response.statusCode).to.equal(200);
     });
-    request(localEndpoint + 'api/favoris/delete?vid=' + vid + '&push=2', async function (error, response, body) {
+    request(localEndpoint + 'api/favoris/delete?vid=' + vid + '&push=G2', async function (error, response, body) {
         expect(response.statusCode).to.equal(200);
-    });
+    });/*
     request(localEndpoint + 'api/favoris/delete?vid=' + vid + '&push=3', async function (error, response, body) {
         expect(response.statusCode).to.equal(200);
     });
@@ -212,6 +196,25 @@ it('delete Favoris', async function (done) {
     });
     request(localEndpoint + 'api/favoris/delete?vid=' + vid + '&push=R3', async function (error, response, body) {
         expect(response.statusCode).to.equal(200);
+    });*/
+    done()
+});
+
+it('Printing Favoris', async function (done) {
+    let local = [0];
+    var server = [0];
+    request(localEndpoint + 'api/favoris/draw?vid=' + vid, async function (error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        local[0] = body;
     });
+    request(serverEndpoint + 'api/favoris/draw?vid=' + vid, async function (error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        server[0] = body;
+    });
+    // Compare les deux réponses
+    setTimeout(function () {
+        // console.log(serverLog, localLog);
+        expect(server[0]).to.equal(local[0]);
+    }, 3000);
     done()
 });
