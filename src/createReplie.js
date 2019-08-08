@@ -46,7 +46,8 @@ function createText(data) {
 async function createGallerie(data) {
     var files = parse.strToArray(data.content);
 
-    var alldata = await sheets.getSheets("1RPMo96lLAXLk9c_XnIm8vlL8jqcfPK9gCNQ7wxMkP3A");
+    console.log(files)
+    var alldata = await sheets.getSheets("14KBR0jBKfHg7ZgmggKY8tEDClcN2BXcj4gF2mzvVjUM");
     var gallerie = favoris.makeGallerie(files, alldata);
     replie.push({
         gallerie
