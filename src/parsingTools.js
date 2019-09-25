@@ -7,7 +7,7 @@ module.exports = {
     // Verifie grossièrement si la string ressemble à un email
     isitMail: function (mail) {
         if (mail.search('@') !== -1)
-            if (mail.search('@') < mail.search('.'))
+            // if (mail.search('@') < mail.search('.'))
                 return true
         return false
     },
