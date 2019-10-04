@@ -71,7 +71,7 @@ module.exports = {
                     status: 401,
                     log: "Aucun favoris",
                     "messages": [
-                        {"text": "Tu n'as pas encore de Favori ! Pour en ajouter appuis sur les boutons Favoris présents sur certaines fiches."}
+                        {"text": "Tu n'as pas encore de Favori ! Pour en ajouter appuis sur les boutons \"Ajouter aux favoris\" présents sur certaines fiches."}
                     ]
                 });
             });
@@ -82,7 +82,17 @@ module.exports = {
             .then(function() {
                 response.status(200).json({
                     status: 200,
-                    log: "Question envoyé au sheet"
+                    log: "Question envoyée au sheet"
+                });
+            });
+    },
+
+    emailReponse: function(response) {
+        requestPromise(requestOptions)
+            .then(function() {
+                response.status(200).json({
+                    status: 200,
+                    log: "Email envoyé au sheet"
                 });
             });
     }
