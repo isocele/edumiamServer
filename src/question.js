@@ -35,13 +35,17 @@ function writeSheets(req, hour, day, res) {
             error.questionReponse(res);
         }
         else if (req.query.email) { // Pour la requête d'ajouter un email de user
+            var defaultbirth = "Aucune date de naissance trouvée";
+            if(req.query.babybirthdate || req.query.babybirthdate !== "")
+                defaultbirth = req.query.babybirthdate;
             doc.addRow(1, {
                 Date: day,
                 heure: hour,
                 prenom: req.query.lastName,
                 nom: req.query.firstName,
                 email: req.query.email,
-                chatfuelID: req.query.userID
+                chatfuelID: req.query.userID,
+                babybirthdate: defaultbirth
             }, function (err) {
                 if (err)
                     console.log(err);
