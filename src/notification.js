@@ -32,7 +32,7 @@ async function createResponse(pertinentData, requestOptions, response, state) {
         // Si aucune valeur n'est mis sur time => next doit valoir 0 (chatfuel ne fera pas d'autres requêtes)
         if (!pertinentData.time)
             id = 0;
-        console.log(pertinentData.time, id)
+        console.log(pertinentData.time, id);
         // Construit la réponse pour afficher le block via chatfuel
         jsondata = {
             "messages":
@@ -68,7 +68,7 @@ async function createResponse(pertinentData, requestOptions, response, state) {
             response.json(jsondata);
         });
 }
-/*
+/* Pour de l'optimisation sur le nombre de requêtes
 function nextNotif(day, data) {
     var i = 0;
 
